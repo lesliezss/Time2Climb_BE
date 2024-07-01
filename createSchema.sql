@@ -3,7 +3,7 @@ CREATE DATABASE Time2Climb
 
 \c time2climb
 
-
+Drop Table if exists levels
 CREATE TABLE IF NOT EXISTS levels (
     level_id INT PRIMARY KEY,
     level_label VARCHAR(50)
@@ -17,7 +17,7 @@ INSERT INTO levels (level_id, level_label) VALUES
 (4, 'Elite'),
 (5, 'Super-elite');
 
-
+Drop Table if exists 
 CREATE TABLE IF NOT EXISTS climb_type (
     climb_type_id INT PRIMARY KEY,
     climb_type_label VARCHAR(50)
