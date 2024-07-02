@@ -94,6 +94,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
                     grade_id INT NOT NULL,
                     climb_type_id INT NOT NULL,
                     climb_outcome_id INT NOT NULL,
+                    CONSTRAINT fk_T2Csession
                     FOREIGN KEY (session_id) REFERENCES T2Csession(session_id),
                     FOREIGN KEY (grade_id) REFERENCES grades(grade_id),
                     FOREIGN KEY (climb_type_id) REFERENCES climb_type(climb_type_id),
