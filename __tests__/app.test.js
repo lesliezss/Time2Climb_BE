@@ -6,8 +6,6 @@ const testData = require('../db/data/test-data')//connected to index.js
 
 //jest 
 
-console.log(testData)
-
 beforeEach(()=>
     seed(testData)
 )

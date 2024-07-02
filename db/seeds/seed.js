@@ -94,7 +94,6 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
                     grade_id INT NOT NULL,
                     climb_type_id INT NOT NULL,
                     climb_outcome_id INT NOT NULL,
-                    CONSTRAINT fk_T2Csession
                     FOREIGN KEY (session_id) REFERENCES T2Csession(session_id),
                     FOREIGN KEY (grade_id) REFERENCES grades(grade_id),
                     FOREIGN KEY (climb_type_id) REFERENCES climb_type(climb_type_id),
@@ -276,17 +275,18 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
       );
       const T2CsessionPromise = db.query(insertSessionsQueryStr);
 
+      return Promise.all([usersPromise, T2CsessionPromise])
+    })
+    .then(() => {
       const insertClimbsQueryStr = format(
-        `INSERT INTO climbs (climb_id, session_id, grade_id, climb_type_id, climb_outcome_id) VALUES %L;`,
+        `INSERT INTO climbs (session_id, grade_id, climb_type_id, climb_outcome_id) VALUES %L;`,
         climbsData.map(
           ({
-            climb_id,
             session_id,
             grade_id,
             climb_type_id,
             climb_outcome_id,
           }) => [
-            climb_id,
             session_id,
             grade_id,
             climb_type_id,
@@ -294,9 +294,8 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
           ]
         )
       );
-      const climbsPromise = db.query(insertClimbsQueryStr);
-
-      return Promise.all([usersPromise, T2CsessionPromise, climbsPromise])
+    
+  return db.query(insertClimbsQueryStr);
     })
     .catch((err) => {
       console.error("Error creating tables", err);

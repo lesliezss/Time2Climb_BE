@@ -2,4 +2,4 @@
 
 -- add sql commends here
 
-SELECT * FROM t2csession WHERE session_id = 1;
+SELECT * FROM climbs;
