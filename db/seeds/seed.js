@@ -1,12 +1,16 @@
 const format = require("pg-format");
 const db = require("../connection");
 const seed = () => {
+    
+
   const query = `
         DROP TABLE IF EXISTS climbs, sessions, users, walls, grades, climb_type, climb_outcomes, grade_system CASCADE;
     `;
   return db
     .query(query)
     .then(() => {
+        
+
       return db.query(`
                 CREATE TABLE IF NOT EXISTS levels (
                     level_id SERIAL PRIMARY KEY,
@@ -74,6 +78,7 @@ const seed = () => {
             `);
     })
     .then(() => {
+        console.log("enters");
       return db.query(`
                 CREATE TABLE IF NOT EXISTS sessions (
                     session_id SERIAL PRIMARY KEY,
