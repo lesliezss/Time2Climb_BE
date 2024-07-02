@@ -4,6 +4,9 @@ const db = require('../db/connection')
 const seed = require('../db/seeds/seed')
 const testData = require('../db/data/test-data')//connected to index.js
 
+//jest 
+
+console.log(testData)
 
 beforeEach(()=>
     seed(testData)
@@ -12,3 +15,9 @@ beforeEach(()=>
 afterAll(()=>
     db.end()
 )
+
+describe("test",()=>{
+    test("test",()=>{
+        expect(1).toBe(1)
+    })
+})
