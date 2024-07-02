@@ -1,3 +1,5 @@
-\c time_2_climb_test
+\c time_2_climb
 
 -- add sql commends here
+
+SELECT * FROM climbs;
