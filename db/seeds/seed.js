@@ -111,11 +111,11 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       return db.query(`INSERT INTO climb_type (climb_type_id, climb_type_label) VALUES
-(1, 'boulder (v-grade)'),
-(2, 'boulder (font)'),
-(3, 'top_rope'),
-(4, 'lead'),
-(5, 'auto-belay');`);
+(1, 'Boulder (v-grade)'),
+(2, 'Boulder (font)'),
+(3, 'Top rope'),
+(4, 'Lead'),
+(5, 'Auto belay');`);
     })
     .then(() => {
       return db.query(`INSERT INTO climb_outcomes (climb_outcome_id, climb_outcome_label) VALUES
@@ -251,9 +251,9 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       const inserUsersQueryStr = format(
-        `INSERT INTO users (user_id, first_name, last_name, age, level_id) VALUES %L;`,
-        usersData.map(({ user_id, first_name, last_name, age, level_id }) => [
-          user_id,
+        `INSERT INTO users (first_name, last_name, age, level_id) VALUES %L;`,
+        usersData.map(({first_name, last_name, age, level_id }) => [
+          // user_id,
           first_name,
           last_name,
           age,
