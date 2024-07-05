@@ -81,7 +81,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
                     climbing_wall_id INT NOT NULL,
                     date DATE NOT NULL,
                     duration_minutes INT NOT NULL,
-                    FOREIGN KEY (user_id) REFERENCES users(user_id),
+                    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
                     FOREIGN KEY (climbing_wall_id) REFERENCES walls(climbing_wall_id)
                 );
             `);
@@ -94,7 +94,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
                     grade_id INT NOT NULL,
                     climb_type_id INT NOT NULL,
                     climb_outcome_id INT NOT NULL,
-                    FOREIGN KEY (session_id) REFERENCES T2Csession(session_id),
+                    FOREIGN KEY (session_id) REFERENCES T2Csession(session_id) ON DELETE CASCADE,
                     FOREIGN KEY (grade_id) REFERENCES grades(grade_id),
                     FOREIGN KEY (climb_type_id) REFERENCES climb_type(climb_type_id),
                     FOREIGN KEY (climb_outcome_id) REFERENCES climb_outcomes(climb_outcome_id)
@@ -111,11 +111,11 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       return db.query(`INSERT INTO climb_type (climb_type_id, climb_type_label) VALUES
-(1, 'boulder (v-grade)'),
-(2, 'boulder (font)'),
-(3, 'top_rope'),
-(4, 'lead'),
-(5, 'auto-belay');`);
+(1, 'Boulder (v-grade)'),
+(2, 'Boulder (font)'),
+(3, 'Top rope'),
+(4, 'Lead'),
+(5, 'Auto belay');`);
     })
     .then(() => {
       return db.query(`INSERT INTO climb_outcomes (climb_outcome_id, climb_outcome_label) VALUES
@@ -251,9 +251,9 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       const inserUsersQueryStr = format(
-        `INSERT INTO users (user_id, first_name, last_name, age, level_id) VALUES %L;`,
+        `INSERT INTO users (first_name, last_name, age, level_id) VALUES %L;`,
         usersData.map(({ user_id, first_name, last_name, age, level_id }) => [
-          user_id,
+          // user_id,
           first_name,
           last_name,
           age,
