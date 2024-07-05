@@ -23,6 +23,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
           grade_system_label VARCHAR(50)
         );
       `);
+      
     })
     .then(() => {
       return db.query(`
