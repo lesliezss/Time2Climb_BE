@@ -2,6 +2,7 @@ const {
   selectClimbsBySessionId,
   selectClimbsByUserId,
   postNewClimbModel,
+  patchClimbsModel,
 } = require("../models/climbs.models");
 
 exports.getClimbsBySessionId = (req, res, next) => {
@@ -40,4 +41,15 @@ exports.postNewClimbController = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.patchClimbsController = (req, res, next) => {
+  const { climb_id } = req.params;
+  const updates = req.body;
+  if (Object.keys(updates).length === 0) {
+    return Promise.rejected({
+      status: 400,
+      msg: "No fields provided to update.",
+    });
+  }
 };

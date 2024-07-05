@@ -100,8 +100,14 @@ function postNewClimbModel(
     });
 }
 
+
+function patchClimbsModel (){
+
+}
+
 module.exports = {
   selectClimbsBySessionId,
   selectClimbsByUserId,
   postNewClimbModel,
+  patchClimbsModel
 };

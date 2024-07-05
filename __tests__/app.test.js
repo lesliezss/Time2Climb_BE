@@ -100,7 +100,7 @@ describe("GET /api/climbs/users/:user_id", () => {
 });
 
 describe("POST /api/climbs", () => {
-  test("201 POST: add a climb for a user, response with an araray of the posted climb", () => {
+  test("201 POST: add a climb for a user, response with the posted climb", () => {
     const newClimb = {
       session_id: 5,
       grade_id: 15,
@@ -153,7 +153,22 @@ describe("POST /api/climbs", () => {
   });
 });
 
-
-describe("",()=>{
-    
-})
+// describe("PATCH /api/climbs/:climb_id", () => {
+//   test("200 PATCH: updates an existing climb nd response with the updated climb", () => {
+//     const patchClimb = { grade_id: 2, climb_outcome_id: 1 };
+//     return request(app)
+//       .patch("/api/climbs/2")
+//       .send(patchClimb)
+//       .expect(200)
+//       .then(({ body }) => {
+//         const { updatedClimb } = body;
+//         expect(updatedClimb).toMatchObject({
+//           climb_id: 2,
+//           session_id: 1,
+//           grade_id: 2,
+//           climb_type_id: 1,
+//           climb_outcome_id: 1,
+//         });
+//       });
+//   });
+// });
