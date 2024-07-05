@@ -19,6 +19,25 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     .then(() => {
       return db.query(`
         CREATE TABLE IF NOT EXISTS grade_system (
+          grade_system_id SERIAL PRIMARY KEY,
+          grade_system_label VARCHAR(50)
+        );
+      `);
+      
+    })
+    .then(() => {
+      return db.query(`
+        CREATE TABLE IF NOT EXISTS grades (
+          grade_id SERIAL PRIMARY KEY,
+          grade_label VARCHAR(10),
+          grade_system INT,
+          FOREIGN KEY (grade_system) REFERENCES grade_system(grade_system_id)
+        );
+      `);
+    })
+    .then(() => {
+      return db.query(`
+        CREATE TABLE IF NOT EXISTS grade_system (
           id SERIAL PRIMARY KEY,
           label VARCHAR(50)
         );
@@ -222,60 +241,32 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
       `);
     })
     .then(() => {
-      const formattedUsersData = usersData.map(
-        ({ first_name, last_name, age, level_id }) => [
-          first_name,
-          last_name,
-          age,
-          level_id,
-        ]
-      );
-      const insertUsersQuery = format(
-        `
+      const formattedUsersData = usersData.map(({ first_name, last_name, age, level_id }) => [first_name, last_name, age, level_id]);
+      const insertUsersQuery = format(`
         INSERT INTO T2C_User (first_name, last_name, age, level_id) VALUES %L RETURNING *;
-      `,
-        formattedUsersData
-      );
+      `, formattedUsersData);
 
       return db.query(insertUsersQuery);
     })
     .then(() => {
-      const formattedT2CsessionData = T2CsessionData.map(
-        ({ user_id, climbing_wall_id, date, duration_minutes }) => [
-          user_id,
-          climbing_wall_id,
-          date,
-          duration_minutes,
-        ]
-      );
-      const insertT2CsessionQuery = format(
-        `
+      const formattedT2CsessionData = T2CsessionData.map(({ user_id, climbing_wall_id, date, duration_minutes }) => [user_id, climbing_wall_id, date, duration_minutes]);
+      const insertT2CsessionQuery = format(`
         INSERT INTO T2C_Session (user_id, wall_id, date, duration_minutes) VALUES %L RETURNING *;
-      `,
-        formattedT2CsessionData
-      );
+      `, formattedT2CsessionData);
 
+      return db.query(insertT2CsessionQuery);
       return db.query(insertT2CsessionQuery);
     })
     .then(() => {
-      const formattedClimbsData = climbsData.map(
-        ({ session_id, grade_id, climb_type_id, climb_outcome_id }) => [
-          session_id,
-          grade_id,
-          climb_type_id,
-          climb_outcome_id,
-        ]
-      );
-      const insertClimbsQuery = format(
-        `
+      const formattedClimbsData = climbsData.map(({ session_id, grade_id, climb_type_id, climb_outcome_id }) => [session_id, grade_id, climb_type_id, climb_outcome_id]);
+      const insertClimbsQuery = format(`
         INSERT INTO climb (session_id, grade_id, type_id, outcome_id) VALUES %L RETURNING *;
-      `,
-        formattedClimbsData
-      );
+      `, formattedClimbsData);
 
       return db.query(insertClimbsQuery);
     })
     .catch((err) => {
+      console.error(err);
       console.error(err);
     });
 };

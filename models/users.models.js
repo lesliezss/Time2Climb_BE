@@ -1,7 +1,9 @@
 const db = require("../db/connection");
 
 exports.fetchUsers = () => {
-  return db.query(`Select * From Users`).then(({ rows }) => {
+  return db.query(`Select * From T2C_User`).then(({ rows }) => {
+
+    
     return rows;
   });
 };
@@ -15,7 +17,7 @@ exports.submitUser = (userDetails) => {
 
   return db
     .query(
-      `INSERT INTO users (first_name, last_name, age, level_id) 
+      `INSERT INTO T2C_User (first_name, last_name, age, level_id) 
         VALUES ($1, $2, $3, $4)
         Returning *
 
@@ -41,20 +43,16 @@ exports.updateUser = (userDetails, user_id) => {
 
   const keysToCheck = ["first_name", "last_name", "age", "level_id"];
 
-  if (!keysToCheck.every((key) => Object.keys(userDetails).includes(key)))
-    return Promise.reject({
-      status: 400,
-      msg: "Bad Request: Missing required fields",
-    });
-
-  const query = `
-    UPDATE users
+if (!keysToCheck.every(key => Object.keys(userDetails).includes(key))) return Promise.reject({status:400, msg: "Bad Request: Missing required fields" })
+   
+    const query = `
+    UPDATE T2C_User
     SET
         first_name = $2,
         last_name = $3,
         age = $4,
         level_id = $5
-    WHERE user_id = $1
+    WHERE id = $1
     RETURNING *;
 `;
   const values = [
@@ -79,9 +77,9 @@ exports.removeUser = (user_id) => {
   if (isNaN(user_id))
     return Promise.reject({ status: 400, msg: "Bad Request: Invalid user_id" });
 
-  const query = `
-        DELETE FROM users
-        WHERE user_id = $1
+    const query = `
+        DELETE FROM T2C_User
+        WHERE id = $1
         RETURNING *;
     `;
 
@@ -91,6 +89,7 @@ exports.removeUser = (user_id) => {
       return rows[0];
     })
     .catch((err) => {
-      console.log("hi");
+       
+        
     });
 };

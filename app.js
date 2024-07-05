@@ -13,6 +13,7 @@ const {
   patchUser,
   deleteUser,
 } = require("./controllers/users.controllers");
+const { getAllGrades, getGrade } = require("./controllers/grades.controllers");
 
 const app = express();
 
@@ -35,6 +36,13 @@ app.delete("/api/users/:user_id", deleteUser);
 
 //CLIMBS
 
+
+
+
+//GRADES
+
+app.get("/api/grades", getAllGrades)
+app.get("/api/grades/:grade_id", getGrade)
 app.get("/api/climbs/:session_id", getClimbsBySessionId);
 
 app.get("/api/climbs/users/:user_id", getClimbsByUserId);

@@ -6,6 +6,7 @@ const {
 } = require("../models/users.models");
 
 exports.getAllUsers = (req, res) => {
+    
   fetchUsers().then((users) => res.status(200).send({ users }));
 };
 
