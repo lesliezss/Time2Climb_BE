@@ -18,16 +18,15 @@ exports.postUser = (req, res, next) => {
       res.status(201).send(newUser);
     })
     .catch((err) => {
-      console.log(err);
       next(err);
     });
 };
 
 exports.patchUser = (req, res, next) => {
   const { body } = req;
-  const { user_id } = req.params;
+  const { session_id } = req.params;
 
-  updateUser(body, user_id)
+  updateUser(body, session_id)
     .then((newDetails) => {
       res.status(200).send(newDetails);
     })
@@ -35,6 +34,7 @@ exports.patchUser = (req, res, next) => {
       next(err);
     });
 };
+
 
 exports.deleteUser = (req, res, next) => {
   const { user_id } = req.params;

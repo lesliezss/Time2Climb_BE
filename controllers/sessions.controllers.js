@@ -1,4 +1,4 @@
-const { selectAllUserSessions, selectUserSession, insertSession } = require("../models/sessions.models")
+const { selectAllUserSessions, selectUserSession, insertSession, updateSession, removeSession } = require("../models/sessions.models")
 
 
 exports.getAllUserSessions = (req, res, next) => {
@@ -20,7 +20,6 @@ exports.getUserSession = (req, res, next) => {
 
 exports.postSessions = (req, res, next) => {
     const { user_id, climbing_wall_id, date, duration_minutes } = req.body;
-    console.log(climbing_wall_id, date)
     return insertSession(
         user_id,
         climbing_wall_id,
@@ -34,4 +33,29 @@ exports.postSessions = (req, res, next) => {
         next(err);
     });
 };
+
+
+exports.patchSessions = (req, res, next) => {
+    const { body } = req;
+    const { sessions_id } = req.params;
+
+    updateSession(body, sessions_id)
+    .then((newSessionInfo) => {
+        console.log(newSessionInfo)
+        res.status(200).send(newSessionInfo)
+    })
+    .catch((err) => {
+        next(err)
+    });
+};
+
+
+
+exports.deleteSession = (req, res, next) => {
+    const { session_id } = req.params;
+    removeSession(session_id)
+    .then((deletedSession) => {
+        res.status(204).send()
+    })
+}
 

@@ -87,7 +87,5 @@ exports.removeUser = (user_id) => {
         return rows[0];
     })
     .catch((err) => {
-       
-        console.log("hi")
     });
 };
