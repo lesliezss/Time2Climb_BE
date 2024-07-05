@@ -19,6 +19,24 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     .then(() => {
       return db.query(`
         CREATE TABLE IF NOT EXISTS grade_system (
+          grade_system_id SERIAL PRIMARY KEY,
+          grade_system_label VARCHAR(50)
+        );
+      `);
+    })
+    .then(() => {
+      return db.query(`
+        CREATE TABLE IF NOT EXISTS grades (
+          grade_id SERIAL PRIMARY KEY,
+          grade_label VARCHAR(10),
+          grade_system INT,
+          FOREIGN KEY (grade_system) REFERENCES grade_system(grade_system_id)
+        );
+      `);
+    })
+    .then(() => {
+      return db.query(`
+        CREATE TABLE IF NOT EXISTS grade_system (
           id SERIAL PRIMARY KEY,
           label VARCHAR(50)
         );
@@ -236,6 +254,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
       `, formattedT2CsessionData);
 
       return db.query(insertT2CsessionQuery);
+      return db.query(insertT2CsessionQuery);
     })
     .then(() => {
       const formattedClimbsData = climbsData.map(({ session_id, grade_id, climb_type_id, climb_outcome_id }) => [session_id, grade_id, climb_type_id, climb_outcome_id]);
@@ -246,6 +265,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
       return db.query(insertClimbsQuery);
     })
     .catch((err) => {
+      console.error(err);
       console.error(err);
     });
 };
