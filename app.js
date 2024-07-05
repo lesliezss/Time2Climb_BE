@@ -1,6 +1,7 @@
 const express = require("express");
 const {} = require('./controllers/app.controllers');
 const { getAllUsers, postUser, patchUser, deleteUser } = require("./controllers/users.controllers");
+const { getAllGrades, getGrade } = require("./controllers/grades.controllers");
 
 
 
@@ -35,6 +36,13 @@ app.delete("/api/users/:user_id", deleteUser)
 
 //CLIMBS
 
+
+
+
+//GRADES
+
+app.get("/api/grades", getAllGrades)
+app.get("/api/grades/:grade_id", getGrade)
 
 
 
