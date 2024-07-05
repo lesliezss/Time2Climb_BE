@@ -20,7 +20,7 @@ describe("Users", () => {
           expect(users).toHaveLength(3);
           users.forEach((user) => {
             expect(user).toMatchObject({
-              user_id: expect.any(Number),
+              id: expect.any(Number),
               first_name: expect.any(String),
               last_name: expect.any(String),
               age: expect.any(Number),
@@ -72,7 +72,7 @@ describe("Users", () => {
         .then(({ body }) => {
           const user = body;
           expect(user).toMatchObject({
-            user_id: expect.any(Number),
+            id: expect.any(Number),
             first_name: "John",
             last_name: "Doe",
             age: 28,
@@ -149,7 +149,7 @@ describe("Users", () => {
         .then(({ body }) => {
           const user = body;
           expect(user).toMatchObject({
-            user_id: 1,
+            id: 1,
             first_name: "Chris",
             last_name: "Updated",
             age: 36,
@@ -252,3 +252,6 @@ describe("Users", () => {
 // SESSIONS
 
 //CLIMBS
+
+//Grades
+
