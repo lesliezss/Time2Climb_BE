@@ -1,4 +1,3 @@
-const {} = require("../models/app.models");
 const {
   fetchUsers,
   submitUser,
@@ -18,7 +17,6 @@ exports.postUser = (req, res, next) => {
       res.status(201).send(newUser);
     })
     .catch((err) => {
-      console.log(err);
       next(err);
     });
 };

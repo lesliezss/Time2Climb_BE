@@ -3,6 +3,7 @@ const {
   selectClimbsByUserId,
   postNewClimbModel,
   patchClimbsModel,
+  deleteClimbByIdModel,
 } = require("../models/climbs.models");
 
 exports.getClimbsBySessionId = (req, res, next) => {
@@ -46,10 +47,22 @@ exports.postNewClimbController = (req, res, next) => {
 exports.patchClimbsController = (req, res, next) => {
   const { climb_id } = req.params;
   const updates = req.body;
-  if (Object.keys(updates).length === 0) {
-    return Promise.rejected({
-      status: 400,
-      msg: "No fields provided to update.",
+  return patchClimbsModel(climb_id, updates)
+    .then((updatedClimb) => {
+      res.status(200).send({ updatedClimb });
+    })
+    .catch((err) => {
+      next(err);
     });
-  }
+};
+
+exports.deleteClimbByIdController = (req, res, next) => {
+  const { climb_id } = req.params;
+  return deleteClimbByIdModel(climb_id)
+  .then((result)=>{
+    res.status(204).send();
+  })
+  .catch((err)=>{
+    next(err)
+  })
 };

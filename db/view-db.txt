@@ -1,4 +1,4 @@
-You are now connected to database "time_2_climb" as user "lesliezhan".
+You are now connected to database "time_2_climb_test" as user "lesliezhan".
  session_id | user_id | climbing_wall_id |    date    | duration_minutes 
 ------------+---------+------------------+------------+------------------
           1 |       1 |                3 | 2023-06-12 |               60
@@ -8,7 +8,7 @@ You are now connected to database "time_2_climb" as user "lesliezhan".
           5 |       2 |                6 | 2023-04-07 |              200
 (5 rows)
 
- climb_id | session_id | grade_id | climb_type_id | climb_outcome_id
+ climb_id | session_id | grade_id | climb_type_id | climb_outcome_id 
 ----------+------------+----------+---------------+------------------
         1 |          1 |       51 |             2 |                1
         2 |          1 |       34 |             1 |                2

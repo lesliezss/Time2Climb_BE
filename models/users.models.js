@@ -7,10 +7,11 @@ exports.fetchUsers = () => {
 };
 
 exports.submitUser = (userDetails) => {
-
-  if (Object.keys(userDetails).length !== 4) return Promise.reject({status: 400, msg:"Bad Request: Missing required fields"})
-  
-
+  if (Object.keys(userDetails).length !== 4)
+    return Promise.reject({
+      status: 400,
+      msg: "Bad Request: Missing required fields",
+    });
 
   return db
     .query(
@@ -27,24 +28,26 @@ exports.submitUser = (userDetails) => {
       ]
     )
     .then(({ rows }) => {
+      
       return rows[0];
     })
     .catch((err) => {
-
-        return Promise.reject({status: 400, msg:'Bad Request: Invalid input'})
+      return Promise.reject({ status: 400, msg: "Bad Request: Invalid input" });
     });
 };
 
-
 exports.updateUser = (userDetails, user_id) => {
-    
-    //if (Object.keys(userDetails).length !== 4) return Promise.reject({status:400, msg: "Bad Request: Missing required fields" })
+  //if (Object.keys(userDetails).length !== 4) return Promise.reject({status:400, msg: "Bad Request: Missing required fields" })
 
-    const keysToCheck = ['first_name', 'last_name', 'age', 'level_id'];
+  const keysToCheck = ["first_name", "last_name", "age", "level_id"];
 
-if (!keysToCheck.every(key => Object.keys(userDetails).includes(key))) return Promise.reject({status:400, msg: "Bad Request: Missing required fields" })
-   
-    const query = `
+  if (!keysToCheck.every((key) => Object.keys(userDetails).includes(key)))
+    return Promise.reject({
+      status: 400,
+      msg: "Bad Request: Missing required fields",
+    });
+
+  const query = `
     UPDATE users
     SET
         first_name = $2,
@@ -54,40 +57,40 @@ if (!keysToCheck.every(key => Object.keys(userDetails).includes(key))) return Pr
     WHERE user_id = $1
     RETURNING *;
 `;
-    const values =[user_id, userDetails.first_name, userDetails.last_name, userDetails.age, userDetails.level_id]
-    
-    return db
+  const values = [
+    user_id,
+    userDetails.first_name,
+    userDetails.last_name,
+    userDetails.age,
+    userDetails.level_id,
+  ];
+
+  return db
     .query(query, values)
-    .then(({rows}) => {
-       
-        return rows[0]
+    .then(({ rows }) => {
+      return rows[0];
     })
     .catch((err) => {
-
-        return Promise.reject({status: 400, msg: "Bad Request: Invalid input"})
-    })
-
-}
+      return Promise.reject({ status: 400, msg: "Bad Request: Invalid input" });
+    });
+};
 
 exports.removeUser = (user_id) => {
+  if (isNaN(user_id))
+    return Promise.reject({ status: 400, msg: "Bad Request: Invalid user_id" });
 
-    if(isNaN(user_id)) return Promise.reject({status: 400, msg: "Bad Request: Invalid user_id" })
-
-    const query = `
+  const query = `
         DELETE FROM users
         WHERE user_id = $1
         RETURNING *;
     `;
 
-    return db
+  return db
     .query(query, [user_id])
     .then(({ rows }) => {
-        
-        
-        return rows[0];
+      return rows[0];
     })
     .catch((err) => {
-       
-        console.log("hi")
+      console.log("hi");
     });
 };
