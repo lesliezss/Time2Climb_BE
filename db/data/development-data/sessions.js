@@ -5,3 +5,4 @@ module.exports =[
   { "user_id": 1, "wall_id": 4, "date": "2022-05-05", "duration_minutes": 50 },
   { "user_id": 2, "wall_id": 6, "date": "2023-04-07", "duration_minutes": 200 }
 ]
+  

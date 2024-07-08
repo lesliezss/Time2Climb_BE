@@ -1,9 +1,6 @@
 exports.usersData = require('./users')
 exports.T2CsessionData = require('./sessions')
-exports.climbsData = require('./climbs') 
-
-
-
+exports.climbsData = require('./climbs')
 //data for jest:
 exports.allGradesArray =  [
     { id: 1, label: '3', grade_system_id: 1 },

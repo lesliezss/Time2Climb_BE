@@ -223,7 +223,9 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     // Seed test data
     .then(() => {
+      // console.log(usersData, '--usersData')
       const formattedUsersData = usersData.map(({ first_name, last_name, age, level_id }) => [first_name, last_name, age, level_id]);
+      // console.log(formattedUsersData, '--formattedUsersData')
       const insertUsersQuery = format(`
         INSERT INTO T2C_User (first_name, last_name, age, level_id) VALUES %L RETURNING *;
       `, formattedUsersData);
