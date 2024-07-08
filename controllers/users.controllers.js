@@ -1,4 +1,3 @@
-const {} = require("../models/app.models");
 const {
   fetchUsers,
   submitUser,

@@ -1,33 +1,55 @@
 {
-    "GET /api": {
-      "description": "serves up a json representation of all the available endpoints of the api"
-    },
-    "GET /api/topics": {
-      "description": "serves an array of all topics",
-      "queries": [],
-      "exampleResponse": {
-        "topics": [{ "slug": "football", "description": "Footie!" }]
-      }
-    },
-    "GET /api/articles": {
-      "description": "serves an array of all articles",
-      "queries": ["author", "topic", "sort_by", "order"],
-      "exampleResponse": {
-        "articles": [
-          {
-            "title": "Seafood substitutions are increasing",
-            "topic": "cooking",
-            "author": "weegembump",
-            "body": "Text from the article..",
-            "created_at": "2018-05-30T15:59:13.341Z",
-            "votes": 0,
-            "comment_count": 6
-          }
-        ]
+  "GET api/climbs/:session_id": {
+    "description": "response with an array of climbs at a particular session",
+    "queries": ["session_id"],
+    "exampleResponse": {
+      "climbs": [
+        {
+          "climb_id": 1,
+          "session_id": 1,
+          "grade_id": 51,
+          "grade_label": "6b+",
+          "grade_system_id": 3,
+          "grade_system_label": "Font",
+          "climb_type_id": 2,
+          "climb_type_label": "Boulder (font)",
+          "climb_outcome_id": 1,
+          "climb_outcome_label": "Onsight (first attempt - no beta)"
+        }
+      ]
+    }
+  },
+  "/api/climbs/users/:user_id": {
+    "description": "response with an array of climbs of a particular user",
+    "queries": ["user_id"],
+    "exampleResponse": {
+      "climbs": [
+        {
+          "user_id": 1,
+          "climb_id": 1,
+          "session_id": 1,
+          "grade_id": 51,
+          "grade_label": "6b+",
+          "grade_system_id": "3",
+          "grade_system_label": "Font",
+          "climb_type_id": 2,
+          "climb_type_label": "Boulder (font)",
+          "climb_outcome_id": 1,
+          "climb_outcome_label": "Onsight (first attempt - no beta)"
+        }
+      ]
+    }
+  },
+  "/api/climbs": {
+    "description": "add a climb for a user, response with the posted climb",
+    "exampleResponse": {
+      "newClimb": {
+        "climb_id": 14,
+        "session_id": 5,
+        "grade_id": 15,
+        "climb_type_id": 4,
+        "climb_outcome_id": 3
       }
     }
   }
-
-
-
-*/*ADD OURS BELOW*/*
+}

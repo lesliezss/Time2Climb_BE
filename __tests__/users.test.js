@@ -253,5 +253,8 @@ describe("Users", () => {
 
 //CLIMBS
 
-//Grades
+// <<<<<<<< HEAD:__tests__/user.test.js
+// ========
+// //Grades
 
+// >>>>>>>> 3a51b9b6279504ecd1a562135ecf757ef8442d04:__tests__/users.test.js
