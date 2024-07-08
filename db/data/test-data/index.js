@@ -1,7 +1,74 @@
 exports.usersData = require('./users')
-exports.T2CsessionData = require('./sessions')
-exports.climbsData = require('./climbs')
+exports.T2CsessionData = require('./sessions')exports.climbsData = require('./climbs')
+
 exports.wallsData = require('./walls')
+
+
+//data for jest:
+exports.allGradesArray =  [
+    { id: 1, label: '3', system: 1 },
+    { id: 2, label: '3+', system: 1 },
+    { id: 3, label: '4', system: 1 },
+    { id: 4, label: '4+', system: 1 },
+    { id: 5, label: '5', system: 1 },
+    { id: 6, label: '5+', system: 1 },
+    { id: 7, label: '6A', system: 1 },
+    { id: 8, label: '6A+', system: 1 },
+    { id: 9, label: '6B', system: 1 },
+    { id: 10, label: '6B+', system: 1 },
+    { id: 11, label: '6C', system: 1 },
+    { id: 12, label: '6C+', system: 1 },
+    { id: 13, label: '7a', system: 1 },
+    { id: 14, label: '7a+', system: 1 },
+    { id: 15, label: '7b', system: 1 },
+    { id: 16, label: '7b+', system: 1 },
+    { id: 17, label: '7c', system: 1 },
+    { id: 18, label: '7c+', system: 1 },
+    { id: 19, label: '8a', system: 1 },
+    { id: 20, label: '8a+', system: 1 },
+    { id: 21, label: '8b', system: 1 },
+    { id: 22, label: '8b+', system: 1 },
+    { id: 23, label: 'VB-', system: 2 },
+    { id: 24, label: 'VB', system: 2 },
+    { id: 25, label: 'VB+', system: 2 },
+    { id: 26, label: 'V0-', system: 2 },
+    { id: 27, label: 'V0', system: 2 },
+    { id: 28, label: 'V0+', system: 2 },
+    { id: 29, label: 'V1', system: 2 },
+    { id: 30, label: 'V2', system: 2 },
+    { id: 31, label: 'V3', system: 2 },
+    { id: 32, label: 'V4', system: 2 },
+    { id: 33, label: 'V5', system: 2 },
+    { id: 34, label: 'V6', system: 2 },
+    { id: 35, label: 'V7', system: 2 },
+    { id: 36, label: 'V8', system: 2 },
+    { id: 37, label: 'V9', system: 2 },
+    { id: 38, label: 'V10', system: 2 },
+    { id: 39, label: 'V11', system: 2 },
+    { id: 40, label: 'V12', system: 2 },
+    { id: 41, label: 'V13', system: 2 },
+    { id: 42, label: '3', system: 3 },
+    { id: 43, label: '3+', system: 3 },
+    { id: 44, label: '4', system: 3 },
+    { id: 45, label: '4+', system: 3 },
+    { id: 46, label: '5', system: 3 },
+    { id: 47, label: '5+', system: 3 },
+    { id: 48, label: '6a', system: 3 },
+    { id: 49, label: '6a+', system: 3 },
+    { id: 50, label: '6b', system: 3 },
+    { id: 51, label: '6b+', system: 3 },
+    { id: 52, label: '6c', system: 3 },
+    { id: 53, label: '6c+', system: 3 },
+    { id: 54, label: '7a', system: 3 },
+    { id: 55, label: '7a+', system: 3 },
+    { id: 56, label: '7b', system: 3 },
+    { id: 57, label: '7b+', system: 3 },
+    { id: 58, label: '7c', system: 3 },
+    { id: 59, label: '7c+', system: 3 },
+    { id: 60, label: '8a', system: 3 },
+    { id: 61, label: '8a+', system: 3 }
+  ]
+
 
 
 //data for jest:
