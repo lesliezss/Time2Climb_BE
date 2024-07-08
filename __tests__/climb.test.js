@@ -26,7 +26,7 @@ describe("GET api/climbs/:session_id", () => {
             grade_system_label: expect.any(String),
             type_id: expect.any(Number),
             type_label: expect.any(String),
-            outcome_id: expect.any(Number),
+            climb_outcome_id: expect.any(Number),
             outcome_label: expect.any(String),
           });
         });
@@ -37,7 +37,7 @@ describe("GET api/climbs/:session_id", () => {
       .get("/api/climbs/notAnId")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid Input");
+        expect(body.msg).toBe("Bad Request");
       });
   });
   test("status 404, responds with an error message when passed a session_id that's not in the database", () => {
@@ -69,7 +69,7 @@ describe("GET /api/climbs/users/:user_id", () => {
             grade_system_label: expect.any(String),
             type_id: expect.any(Number),
             type_label: expect.any(String),
-            outcome_id: expect.any(Number),
+            climb_outcome_id: expect.any(Number),
             outcome_label: expect.any(String),
           });
         });
@@ -80,7 +80,7 @@ describe("GET /api/climbs/users/:user_id", () => {
       .get("/api/climbs/users/notAnId")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid Input");
+        expect(body.msg).toBe("Bad Request");
       });
   });
   test("status 404, responds with an error message when passed a session_id that's not in the database", () => {
@@ -99,7 +99,7 @@ describe("POST /api/climbs", () => {
       session_id: 5,
       grade_id: 15,
       type_id: 4,
-      outcome_id: 3,
+      climb_outcome_id: 3,
     };
     return request(app)
       .post("/api/climbs")
@@ -112,7 +112,7 @@ describe("POST /api/climbs", () => {
           session_id: 5,
           grade_id: 15,
           type_id: 4,
-          outcome_id: 3,
+          climb_outcome_id: 3,
         });
       });
   });
@@ -120,7 +120,7 @@ describe("POST /api/climbs", () => {
     const newClimb = {
       id: 5,
       grade_id: 15,
-      outcome_id: 3,
+      climb_outcome_id: 3,
     };
     return request(app)
       .post("/api/climbs")
@@ -135,21 +135,21 @@ describe("POST /api/climbs", () => {
       session_id: 5,
       grade_id: 15,
       type_id: "four",
-      outcome_id: 3,
+      climb_outcome_id: 3,
     };
     return request(app)
       .post("/api/climbs")
       .send(newClimb)
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid Input");
+        expect(body.msg).toBe("Bad Request");
       });
   });
 });
 
 describe("PATCH /api/climbs/:climb_id", () => {
   test("200 PATCH: updates an existing climb and response with the updated climb", () => {
-    const patchClimb = { grade_id: 2, outcome_id: 1 };
+    const patchClimb = { grade_id: 2, climb_outcome_id: 1 };
     return request(app)
       .patch("/api/climbs/2")
       .send(patchClimb)
@@ -161,7 +161,7 @@ describe("PATCH /api/climbs/:climb_id", () => {
           session_id: 1,
           grade_id: 2,
           type_id: 1,
-          outcome_id: 1,
+          climb_outcome_id: 1,
         });
       });
   });
@@ -176,17 +176,17 @@ describe("PATCH /api/climbs/:climb_id", () => {
       });
   });
   test("status 400: responds with an error message when passed an invalid climb id", () => {
-    const patchClimb = { grade_id: 2, outcome_id: 1 };
+    const patchClimb = { grade_id: 2, climb_outcome_id: 1 };
     return request(app)
       .patch("/api/climbs/notAnId")
       .send(patchClimb)
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid Input");
+        expect(body.msg).toBe("Bad Request");
       });
   });
   test("status 404: responds with an error message when passed a climb id that does not in the database", () => {
-    const patchClimb = { grade_id: 2, outcome_id: 1 };
+    const patchClimb = { grade_id: 2, climb_outcome_id: 1 };
     return request(app)
       .patch("/api/climbs/999")
       .send(patchClimb)
@@ -206,7 +206,7 @@ describe("DELETE /api/climbs/:climb_id", () => {
       .delete("/api/climbs/notAnId")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid Input");
+        expect(body.msg).toBe("Bad Request");
       });
   });
   test("status 404: responds with an error when given a climb_id that's not in the database", () => {

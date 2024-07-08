@@ -1,7 +1,7 @@
 const db = require("../db/connection");
 
 exports.fetchUsers = () => {
-  return db.query(`Select * From T2C_User`).then(({ rows }) => {
+  return db.query(`Select * From t2c_user`).then(({ rows }) => {
 
     
     return rows;
@@ -17,7 +17,7 @@ exports.submitUser = (userDetails) => {
 
   return db
     .query(
-      `INSERT INTO T2C_User (first_name, last_name, age, level_id) 
+      `INSERT INTO t2c_user (first_name, last_name, age, level_id) 
         VALUES ($1, $2, $3, $4)
         Returning *
 
@@ -26,7 +26,7 @@ exports.submitUser = (userDetails) => {
         userDetails.first_name,
         userDetails.last_name,
         userDetails.age,
-        userDetails.level_id,
+        userDetails.level_id
       ]
     )
     .then(({ rows }) => {
@@ -34,7 +34,7 @@ exports.submitUser = (userDetails) => {
       return rows[0];
     })
     .catch((err) => {
-      return Promise.reject({ status: 400, msg: "Bad Request: Invalid input" });
+      return Promise.reject({ status: 400, msg: "Bad Request: Bad Request" });
     });
 };
 
@@ -46,7 +46,7 @@ exports.updateUser = (userDetails, user_id) => {
 if (!keysToCheck.every(key => Object.keys(userDetails).includes(key))) return Promise.reject({status:400, msg: "Bad Request: Missing required fields" })
    
     const query = `
-    UPDATE T2C_User
+    UPDATE t2c_user
     SET
         first_name = $2,
         last_name = $3,
@@ -60,7 +60,7 @@ if (!keysToCheck.every(key => Object.keys(userDetails).includes(key))) return Pr
     userDetails.first_name,
     userDetails.last_name,
     userDetails.age,
-    userDetails.level_id,
+    userDetails.level_id
   ];
 
   return db
@@ -69,7 +69,7 @@ if (!keysToCheck.every(key => Object.keys(userDetails).includes(key))) return Pr
       return rows[0];
     })
     .catch((err) => {
-      return Promise.reject({ status: 400, msg: "Bad Request: Invalid input" });
+      return Promise.reject({ status: 400, msg: "Bad Request: Bad Request" });
     });
 };
 
@@ -78,7 +78,7 @@ exports.removeUser = (user_id) => {
     return Promise.reject({ status: 400, msg: "Bad Request: Invalid user_id" });
 
     const query = `
-        DELETE FROM T2C_User
+        DELETE FROM t2c_user
         WHERE id = $1
         RETURNING *;
     `;

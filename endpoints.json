@@ -47,7 +47,7 @@
         "climb_id": 14,
         "session_id": 5,
         "grade_id": 15,
-        "climb_type_id": 4,
+        "type_id": 4,
         "climb_outcome_id": 3
       }
     }

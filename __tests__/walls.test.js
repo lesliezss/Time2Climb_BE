@@ -28,7 +28,7 @@ describe('Get wall by ID', () => {
             .get('/api/walls/99999')
             .expect(404)
             .then(({body}) => {
-                expect(body.msg).toEqual('Not Found');
+                expect(body.msg).toEqual('ID Not Found');
             });
     });
     it('Returns 400 bad request for an invalid wall ID', () => {
@@ -63,7 +63,7 @@ describe('Get walls', () => {
 });
 
 // describe('Get walls by user', () => {
-//     it.only('Returns walls for the specified user only', () => {
+//     it('Returns walls for the specified user only', () => {
 //         return request(app)
 //             .get('/api/walls/user/1')
 //             .expect(200)

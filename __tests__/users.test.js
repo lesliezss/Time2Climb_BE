@@ -32,7 +32,7 @@ describe("Users", () => {
 
 // this commented out test is for if we ever wanted to make an endpoint for geting an individual user
     
-//     describe.only("Error Handling(Get User)", () => {
+//     describe("Error Handling(Get User)", () => {
 //       test("should respond with 404 for non-existent user", () => {
 //         const nonExistentUserId = 9999;
 //         return request(app)
@@ -43,7 +43,7 @@ describe("Users", () => {
 //           });
 //       });
 
-//       test("should respond with 400 for invalid input (user_id is not a number)", () => {
+//       test("should respond with 400 for Bad Request (user_id is not a number)", () => {
 //         const invalidUserId = "invalid_id";
 //         return request(app)
 //           .get(`/api/users/${invalidUserId}`)
@@ -109,7 +109,7 @@ describe("Users", () => {
           .send(newUser)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe("Bad Request: Invalid input");
+            expect(body.msg).toBe("Bad Request: Bad Request");
           });
       });
 
@@ -126,7 +126,7 @@ describe("Users", () => {
           .send(newUser)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe("Bad Request: Invalid input");
+            expect(body.msg).toBe("Bad Request: Bad Request");
           });
       });
     });
@@ -185,7 +185,7 @@ describe("Users", () => {
           .send(updatedUser)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe("Bad Request: Invalid input");
+            expect(body.msg).toBe("Bad Request: Bad Request");
           });
       });
 
@@ -202,7 +202,7 @@ describe("Users", () => {
           .send(updatedUser)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe("Bad Request: Invalid input");
+            expect(body.msg).toBe("Bad Request: Bad Request");
           });
       });
     });

@@ -16,8 +16,6 @@ const {
 const { getAllGrades, getGrade } = require("./controllers/grades.controllers");
 const { getWalls, getWallById, getWallsByUser } = require('./controllers/walls.controllers');
 
-const app = express()
-
 const app = express();
 
 app.use(express.json());
@@ -59,14 +57,10 @@ app.get("/api/walls", getWalls);
 app.get("/api/walls/:id", getWallById);
 app.get("/api/walls/user/:user_id", getWallsByUser);
 
-//handles when path is incorrect
-app.all("*", (req, res) => {
-  res.status(404).send({ msg: "Not Found" });
-});
 //psql errors
 app.use((err, req, res, next) => {
   if (err.code === "22P02") {
-    res.status(400).send({ msg: "Bad Request" });
+    return res.status(400).send({ msg: "Bad Request" });
   } else {
     next(err);
   }
@@ -74,7 +68,7 @@ app.use((err, req, res, next) => {
 //custom errors
 app.use((err, req, res, next) => {
   if (err.msg) {
-    res.status(err.status).send({ msg: err.msg });
+    return res.status(err.status).send({ msg: err.msg });
   } else {
     next(err);
   }
@@ -82,7 +76,7 @@ app.use((err, req, res, next) => {
 //server errors
 app.use((err, req, res, next) => {
   console.log(err, "<<------ from our 500");
-  res.status(500).send({ msg: "Internal Server Error" });
+  return res.status(500).send({ msg: "Internal Server Error" });
 });
 
 module.exports = app;

@@ -7,12 +7,11 @@ exports.getWallByIdQuery = ((id, next) => {
         WHERE id = $1;`, [id])
     .then(({rows}) =>{
         if (rows.length === 0) {
-            return Promise.reject({status: 404, msg: 'Not Found'});
+            return Promise.reject({status: 404, msg: 'ID Not Found'});
         };
         return rows;
     })
     .catch((err) => {
-        console.log(err, '--err')
         next(err);
     });
 });

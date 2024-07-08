@@ -1,18 +1,63 @@
 const format = require("pg-format");
 const db = require("../connection");
-const users = require("../data/development-data/users");
-const users = require("../data/development-data/users");
 
 const seed = ({ usersData, T2CsessionData, climbsData }) => {
-  const query = `
-    DROP TABLE IF EXISTS climb, T2C_Session, T2C_User, wall, grade, climb_type, level, climb_outcome, grade_system CASCADE;
-  `;
   return db
-    .query(query)
+    .query(`DROP TABLE IF EXISTS climb CASCADE;`)
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS level_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS grade_system_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS grade_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS climb_type_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS climb_outcome_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS wall_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS t2c_user_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS t2c_session_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP SEQUENCE IF EXISTS climb_id_seq CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS t2c_session CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS wall CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS t2c_user CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS climb_type CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS climb_outcome CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS grade CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS grade_system CASCADE;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS level CASCADE;`);
+    })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS level (
-          id SERIAL PRIMARY KEY,
+        CREATE TABLE level (
           id SERIAL PRIMARY KEY,
           label VARCHAR(50)
         );
@@ -20,7 +65,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS grade_system (
+        CREATE TABLE grade_system (
           id SERIAL PRIMARY KEY,
           label VARCHAR(50)
         );
@@ -29,20 +74,17 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS grade (
+        CREATE TABLE grade (
           id SERIAL PRIMARY KEY,
           label VARCHAR(10),
           grade_system_id INT,
-          FOREIGN KEY (grade_system_id) REFERENCES grade_system(id)
-          grade_system_id INT,
-          FOREIGN KEY (grade_system_id) REFERENCES grade_system(id)
+          FOREIGN KEY (grade_system_id) REFERENCES grade_system(id) ON DELETE CASCADE
         );
       `);
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS climb_type (
-          id SERIAL PRIMARY KEY,
+        CREATE TABLE climb_type (
           id SERIAL PRIMARY KEY,
           label VARCHAR(50)
         );
@@ -50,7 +92,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS climb_outcome (
+        CREATE TABLE climb_outcome (
           id SERIAL PRIMARY KEY,
           label VARCHAR(50)
         );
@@ -58,7 +100,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS wall (
+        CREATE TABLE wall (
           id SERIAL PRIMARY KEY,
           name VARCHAR(100),
           postcode VARCHAR(20),
@@ -70,41 +112,41 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS T2C_User (
+        CREATE TABLE t2c_user (
           id SERIAL PRIMARY KEY,
           first_name VARCHAR(50) NOT NULL,
           last_name VARCHAR(50) NOT NULL,
           age INT,
           level_id INT,
-          FOREIGN KEY (level_id) REFERENCES level(id)
+          FOREIGN KEY (level_id) REFERENCES level(id) ON DELETE CASCADE
         );
       `);
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS T2C_Session (
+        CREATE TABLE t2c_session (
           id SERIAL PRIMARY KEY,
           user_id INT NOT NULL,
           wall_id INT NOT NULL,
           date DATE NOT NULL,
           duration_minutes INT NOT NULL,
-          FOREIGN KEY (user_id) REFERENCES T2C_User(id) ON DELETE CASCADE,
-          FOREIGN KEY (wall_id) REFERENCES wall(id)
+          FOREIGN KEY (user_id) REFERENCES t2c_user(id) ON DELETE CASCADE,
+          FOREIGN KEY (wall_id) REFERENCES wall(id) ON DELETE CASCADE
         );
       `);
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS climb (
+        CREATE TABLE climb (
           id SERIAL PRIMARY KEY,
           session_id INT NOT NULL,
           grade_id INT NOT NULL,
           type_id INT NOT NULL,
           climb_outcome_id INT NOT NULL,
-          FOREIGN KEY (session_id) REFERENCES T2C_Session(id) ON DELETE CASCADE,
-          FOREIGN KEY (grade_id) REFERENCES grade(id),
-          FOREIGN KEY (type_id) REFERENCES climb_type(id),
-          FOREIGN KEY (climb_outcome_id) REFERENCES climb_outcome(id)
+          FOREIGN KEY (session_id) REFERENCES t2c_session(id) ON DELETE CASCADE,
+          FOREIGN KEY (grade_id) REFERENCES grade(id) ON DELETE CASCADE,
+          FOREIGN KEY (type_id) REFERENCES climb_type(id) ON DELETE CASCADE,
+          FOREIGN KEY (climb_outcome_id) REFERENCES climb_outcome(id) ON DELETE CASCADE
         );
       `);
     })
@@ -118,12 +160,6 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
         ('Intermediate'),
         ('Elite'),
         ('Super-elite');
-        INSERT INTO level (label) VALUES
-        ('Novice'),
-        ('Beginner'),
-        ('Intermediate'),
-        ('Elite'),
-        ('Super-elite');
       `);
     })
     .then(() => {
@@ -132,76 +168,10 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
         ('Sport'),
         ('V'),
         ('Font');
-        INSERT INTO grade_system (label) VALUES
-        ('Sport'),
-        ('V'),
-        ('Font');
       `);
     })
     .then(() => {
       return db.query(`
-        INSERT INTO grade (label, grade_system_id) VALUES
-        ('3', 1),
-        ('3+', 1),
-        ('4', 1),
-        ('4+', 1),
-        ('5', 1),
-        ('5+', 1),
-        ('6A', 1),
-        ('6A+', 1),
-        ('6B', 1),
-        ('6B+', 1),
-        ('6C', 1),
-        ('6C+', 1),
-        ('7a', 1),
-        ('7a+', 1),
-        ('7b', 1),
-        ('7b+', 1),
-        ('7c', 1),
-        ('7c+', 1),
-        ('8a', 1),
-        ('8a+', 1),
-        ('8b', 1),
-        ('8b+', 1),
-        ('VB-', 2),
-        ('VB', 2),
-        ('VB+', 2),
-        ('V0-', 2),
-        ('V0', 2),
-        ('V0+', 2),
-        ('V1', 2),
-        ('V2', 2),
-        ('V3', 2),
-        ('V4', 2),
-        ('V5', 2),
-        ('V6', 2),
-        ('V7', 2),
-        ('V8', 2),
-        ('V9', 2),
-        ('V10', 2),
-        ('V11', 2),
-        ('V12', 2),
-        ('V13', 2),
-        ('3', 3),
-        ('3+', 3),
-        ('4', 3),
-        ('4+', 3),
-        ('5', 3),
-        ('5+', 3),
-        ('6a', 3),
-        ('6a+', 3),
-        ('6b', 3),
-        ('6b+', 3),
-        ('6c', 3),
-        ('6c+', 3),
-        ('7a', 3),
-        ('7a+', 3),
-        ('7b', 3),
-        ('7b+', 3),
-        ('7c', 3),
-        ('7c+', 3),
-        ('8a', 3),
-        ('8a+', 3);
         INSERT INTO grade (label, grade_system_id) VALUES
         ('3', 1),
         ('3+', 1),
@@ -274,22 +244,10 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
         ('Top rope'),
         ('Lead'),
         ('Auto belay');
-        INSERT INTO climb_type (label) VALUES
-        ('Boulder (v-grade)'),
-        ('Boulder (font)'),
-        ('Top rope'),
-        ('Lead'),
-        ('Auto belay');
       `);
     })
     .then(() => {
       return db.query(`
-        INSERT INTO climb_outcome (label) VALUES
-        ('Onsight (first attempt - no beta)'),
-        ('Flash (first attempt - with beta)'),
-        ('Redpoint (multiple attempts)'),
-        ('Repeat ascent'),
-        ('Still working on it');
         INSERT INTO climb_outcome (label) VALUES
         ('Onsight (first attempt - no beta)'),
         ('Flash (first attempt - with beta)'),
@@ -316,34 +274,28 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
 
     // Seed test data
     .then(() => {
-      // console.log(usersData, '--usersData')
       const formattedUsersData = usersData.map(({ first_name, last_name, age, level_id }) => [first_name, last_name, age, level_id]);
-      // console.log(formattedUsersData, '--formattedUsersData')
       const insertUsersQuery = format(`
-        INSERT INTO T2C_User (first_name, last_name, age, level_id) VALUES %L RETURNING *;
+        INSERT INTO t2c_user (first_name, last_name, age, level_id) VALUES %L RETURNING *;
       `, formattedUsersData);
       return db.query(insertUsersQuery);
     })
     .then(() => {
       const formattedT2CsessionData = T2CsessionData.map(({ user_id, wall_id, date, duration_minutes }) => [user_id, wall_id, date, duration_minutes]);
-      const formattedT2CsessionData = T2CsessionData.map(({ user_id, wall_id, date, duration_minutes }) => [user_id, wall_id, date, duration_minutes]);
       const insertT2CsessionQuery = format(`
-        INSERT INTO T2C_Session (user_id, wall_id, date, duration_minutes) VALUES %L RETURNING *;
+        INSERT INTO t2c_session (user_id, wall_id, date, duration_minutes) VALUES %L RETURNING *;
       `, formattedT2CsessionData);
-
       return db.query(insertT2CsessionQuery);
     })
     .then(() => {
-      const formattedClimbsData = climbsData.map(({ session_id, grade_id, type_id, outcome_id }) => [session_id, grade_id, type_id, outcome_id]);
-      const formattedClimbsData = climbsData.map(({ session_id, grade_id, type_id, outcome_id }) => [session_id, grade_id, type_id, outcome_id]);
+      const formattedClimbsData = climbsData.map(({ session_id, grade_id, type_id, climb_outcome_id }) => [session_id, grade_id, type_id, climb_outcome_id]);
       const insertClimbsQuery = format(`
         INSERT INTO climb (session_id, grade_id, type_id, climb_outcome_id) VALUES %L RETURNING *;
       `, formattedClimbsData);
       return db.query(insertClimbsQuery);
     })
     .catch((err) => {
-      console.error(err);
-      
+      console.error(err, '<<--seeding error');
     });
 };
 module.exports = seed;
