@@ -1,4 +1,4 @@
--- \c time_2_climb
+\c time_2_climb
 
 -- \echo '\n *** DEV DB *** \n'
 
