@@ -1,10 +1,7 @@
 const express = require("express");
 const {} = require('./controllers/app.controllers');
 const { getAllUsers, postUser, patchUser, deleteUser } = require("./controllers/users.controllers");
-
-
-
-
+const { getWalls } = require('./controllers/walls.controllers');
 
 const app = express()
 
@@ -36,7 +33,10 @@ app.delete("/api/users/:user_id", deleteUser)
 //CLIMBS
 
 
-
+//WALLS
+app.get("/api/walls", getWalls);
+// app.get("/api/walls/:id", getWallsById);
+// app.get("/api/walls/user/:user_id", getWallsByUser);
 
 //handles when path is incorrect
 app.all('*', (req, res) => {

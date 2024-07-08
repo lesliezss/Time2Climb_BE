@@ -1,11 +1,11 @@
-// const app = require('../app')
-// const request = require('supertest')
-// const db = require('../db/connection')
-// const seed = require('../db/seeds/seed')
-// const testData = require('../db/data/test-data')
+const app = require('../app');
+const request = require('supertest');
+const db = require('../db/connection');
+const seed = require("../db/seeds/seed");
+const testData = require("../db/data/test-data");
 
-// beforeEach(() => seed(testData));
-// afterAll(() => db.end());
+beforeEach(() => seed(testData));
+afterAll(() => db.end());
 
 // describe('Get wall by ID', () => {
 //     it('Returns correct wall', () => {
@@ -41,60 +41,34 @@
 //     });
 // });
 
-// describe('Get walls', () => {
-//     it('Returns correct number of walls in the correct format', () => {
-//         return request(app)
-//             .get('/api/walls')
-//             .expect(200)
-//             .then(({body}) => {
-//                 expect(body.walls).toHaveLength(5);
-//                 body.walls.forEach((wall) => {
-//                     expect(wall).toMatchObject({
-//                         wall_id: expect.any(Number),
-//                         title: expect.any(String),
-//                         topic: expect.any(String),
-//                         author: expect.any(String),
-//                         created_at: expect.any(String),
-//                         votes: expect.any(Number),
-//                         wall_img_url: expect.any(String),
-//                         comment_count: expect.any(Number)
-//                     })
-//                 });
-//             });
-//     });
-//     it('Returns walls in date descending order when no sort_by and no order passed', () => {
-//         return request(app)
-//             .get('/api/walls')
-//             .expect(200)
-//             .then(({body}) => {
-//                 expect(body.walls).toBeSortedBy('created_at', {descending: true});
-//             });
-//     });
-//     it('Returns walls sorted by specified column in descending order when no order passed', () => {
-//         return request(app)
-//             .get('/api/walls?sort_by=author')
-//             .expect(200)
-//             .then(({body}) => {
-//                 expect(body.walls).toBeSortedBy('author', {descending: true});
-//             });
-//     });
-//     it('Returns walls sorted by specified column in the specified order', () => {
-//         return request(app)
-//             .get('/api/walls?sort_by=title&order=asc')
-//             .expect(200)
-//             .then(({body}) => {
-//                 expect(body.walls).toBeSortedBy('title', {ascending: true});
-//             });
-//     });
-//     it('Returns walls sorted by date in the specified order when no sort_by passed', () => {
-//         return request(app)
-//             .get('/api/walls?order=asc')
-//             .expect(200)
-//             .then(({body}) => {
-//                 expect(body.walls).toBeSortedBy('created_at', {ascending: true});
-//             });
-//     });
-// });
+describe.only('Get walls', () => {
+    it.only('Returns correct number of walls in the correct format', () => {
+        return request(app)
+            .get('/api/walls')
+            .expect(200)
+            .then(({body}) => {
+                expect(body.walls).toHaveLength(10);
+                body.walls.forEach((wall) => {
+                    expect(wall).toMatchObject({
+                        id: expect.any(Number),
+                        name: expect.any(String),
+                        postcode: expect.any(String),
+                        lat: expect.any(String),
+                        long: expect.any(String),
+                        county: expect.any(String)
+                    })
+                });
+            });
+    });
+    // it('Returns walls in date descending order when no sort_by and no order passed', () => {
+    //     return request(app)
+    //         .get('/api/walls')
+    //         .expect(200)
+    //         .then(({body}) => {
+    //             expect(body.walls).toBeSortedBy('created_at', {descending: true});
+    //         });
+    // });
+});
 
 // describe('Get walls by user', () => {
 //     it('Returns all walls when empty topic is passed', () => {

@@ -20,7 +20,8 @@
     "seed": "node ./db/seeds/run-seed.js",
     "test": "jest",
     "view-db": "psql -f ./db/view-db.sql > ./db/view-db.txt",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "seed-prod": "NODE_ENV=production npm run seed"
   },
   "keywords": [],
   "author": "",
