@@ -18,16 +18,16 @@ describe("GET api/climbs/:session_id", () => {
         expect(climbs.length).toBe(2);
         climbs.forEach((climb) => {
           expect(climb).toMatchObject({
-            climb_id: expect.any(Number),
+            id: expect.any(Number),
             session_id: expect.any(Number),
             grade_id: expect.any(Number),
             grade_label: expect.any(String),
             grade_system_id: expect.any(Number),
             grade_system_label: expect.any(String),
-            climb_type_id: expect.any(Number),
-            climb_type_label: expect.any(String),
-            climb_outcome_id: expect.any(Number),
-            climb_outcome_label: expect.any(String),
+            type_id: expect.any(Number),
+            type_label: expect.any(String),
+            outcome_id: expect.any(Number),
+            outcome_label: expect.any(String),
           });
         });
       });
@@ -61,16 +61,16 @@ describe("GET /api/climbs/users/:user_id", () => {
         climbs.forEach((climb) => {
           expect(climb).toMatchObject({
             user_id: expect.any(Number),
-            climb_id: expect.any(Number),
+            id: expect.any(Number),
             session_id: expect.any(Number),
             grade_id: expect.any(Number),
             grade_label: expect.any(String),
             grade_system_id: expect.any(Number),
             grade_system_label: expect.any(String),
-            climb_type_id: expect.any(Number),
-            climb_type_label: expect.any(String),
-            climb_outcome_id: expect.any(Number),
-            climb_outcome_label: expect.any(String),
+            type_id: expect.any(Number),
+            type_label: expect.any(String),
+            outcome_id: expect.any(Number),
+            outcome_label: expect.any(String),
           });
         });
       });
@@ -98,8 +98,8 @@ describe("POST /api/climbs", () => {
     const newClimb = {
       session_id: 5,
       grade_id: 15,
-      climb_type_id: 4,
-      climb_outcome_id: 3,
+      type_id: 4,
+      outcome_id: 3,
     };
     return request(app)
       .post("/api/climbs")
@@ -108,19 +108,19 @@ describe("POST /api/climbs", () => {
       .then(({ body }) => {
         const { newClimb } = body;
         expect(newClimb).toMatchObject({
-          climb_id: expect.any(Number),
+          id: expect.any(Number),
           session_id: 5,
           grade_id: 15,
-          climb_type_id: 4,
-          climb_outcome_id: 3,
+          type_id: 4,
+          outcome_id: 3,
         });
       });
   });
   test("status 400: responds with an error message when fileds are not filled", () => {
     const newClimb = {
-      session_id: 5,
+      id: 5,
       grade_id: 15,
-      climb_outcome_id: 3,
+      outcome_id: 3,
     };
     return request(app)
       .post("/api/climbs")
@@ -134,8 +134,8 @@ describe("POST /api/climbs", () => {
     const newClimb = {
       session_id: 5,
       grade_id: 15,
-      climb_type_id: "four",
-      climb_outcome_id: 3,
+      type_id: "four",
+      outcome_id: 3,
     };
     return request(app)
       .post("/api/climbs")
@@ -149,7 +149,7 @@ describe("POST /api/climbs", () => {
 
 describe("PATCH /api/climbs/:climb_id", () => {
   test("200 PATCH: updates an existing climb and response with the updated climb", () => {
-    const patchClimb = { grade_id: 2, climb_outcome_id: 1 };
+    const patchClimb = { grade_id: 2, outcome_id: 1 };
     return request(app)
       .patch("/api/climbs/2")
       .send(patchClimb)
@@ -157,11 +157,11 @@ describe("PATCH /api/climbs/:climb_id", () => {
       .then(({ body }) => {
         const { updatedClimb } = body;
         expect(updatedClimb).toMatchObject({
-          climb_id: 2,
+          id: 2,
           session_id: 1,
           grade_id: 2,
-          climb_type_id: 1,
-          climb_outcome_id: 1,
+          type_id: 1,
+          outcome_id: 1,
         });
       });
   });
@@ -176,7 +176,7 @@ describe("PATCH /api/climbs/:climb_id", () => {
       });
   });
   test("status 400: responds with an error message when passed an invalid climb id", () => {
-    const patchClimb = { grade_id: 2, climb_outcome_id: 1 };
+    const patchClimb = { grade_id: 2, outcome_id: 1 };
     return request(app)
       .patch("/api/climbs/notAnId")
       .send(patchClimb)
@@ -186,13 +186,13 @@ describe("PATCH /api/climbs/:climb_id", () => {
       });
   });
   test("status 404: responds with an error message when passed a climb id that does not in the database", () => {
-    const patchClimb = { grade_id: 2, climb_outcome_id: 1 };
+    const patchClimb = { grade_id: 2, outcome_id: 1 };
     return request(app)
       .patch("/api/climbs/999")
       .send(patchClimb)
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("No climb found with climb_id: 999");
+        expect(body.msg).toBe("No climb found with id: 999");
       });
   });
 });
@@ -201,7 +201,7 @@ describe("DELETE /api/climbs/:climb_id", () => {
   test("204 DELETE: delete an existing climb by climb_id", () => {
     return request(app).delete("/api/climbs/3").expect(204);
   });
-  test("status 400: responds with an error when given an invalid climb_id", () => {
+  test("status 400: responds with an error when given an invalid id", () => {
     return request(app)
       .delete("/api/climbs/notAnId")
       .expect(400)
@@ -214,7 +214,7 @@ describe("DELETE /api/climbs/:climb_id", () => {
       .delete("/api/climbs/999")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("No climb found with climb_id: 999");
+        expect(body.msg).toBe("No climb found with id: 999");
       });
   });
 });

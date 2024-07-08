@@ -4,7 +4,7 @@ const {
   getClimbsByUserId,
   postNewClimbController,
   patchClimbsController,
-  deleteClimbByIdController
+  deleteClimbByIdController,
 } = require("./controllers/climbs.controllers");
 
 const {
@@ -36,13 +36,6 @@ app.delete("/api/users/:user_id", deleteUser);
 
 //CLIMBS
 
-
-
-
-//GRADES
-
-app.get("/api/grades", getAllGrades)
-app.get("/api/grades/:grade_id", getGrade)
 app.get("/api/climbs/:session_id", getClimbsBySessionId);
 
 app.get("/api/climbs/users/:user_id", getClimbsByUserId);
@@ -52,6 +45,11 @@ app.post("/api/climbs", postNewClimbController);
 app.patch("/api/climbs/:climb_id", patchClimbsController);
 
 app.delete("/api/climbs/:climb_id", deleteClimbByIdController);
+
+//GRADES
+
+app.get("/api/grades", getAllGrades);
+app.get("/api/grades/:grade_id", getGrade);
 
 app.use((err, req, res, next) => {
   if (err.status) {

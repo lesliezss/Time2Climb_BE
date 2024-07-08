@@ -29,13 +29,8 @@ exports.getClimbsByUserId = (req, res, next) => {
 };
 
 exports.postNewClimbController = (req, res, next) => {
-  const { session_id, grade_id, climb_type_id, climb_outcome_id } = req.body;
-  return postNewClimbModel(
-    session_id,
-    grade_id,
-    climb_type_id,
-    climb_outcome_id
-  )
+  const { session_id, grade_id, type_id, outcome_id } = req.body;
+  return postNewClimbModel(session_id, grade_id, type_id, outcome_id)
     .then((newClimb) => {
       res.status(201).send({ newClimb });
     })
@@ -59,10 +54,10 @@ exports.patchClimbsController = (req, res, next) => {
 exports.deleteClimbByIdController = (req, res, next) => {
   const { climb_id } = req.params;
   return deleteClimbByIdModel(climb_id)
-  .then((result)=>{
-    res.status(204).send();
-  })
-  .catch((err)=>{
-    next(err)
-  })
+    .then((result) => {
+      res.status(204).send();
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
