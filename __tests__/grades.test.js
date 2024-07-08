@@ -1,12 +1,11 @@
-const app = require("../app");
-const request = require("supertest");
-const db = require("../db/connection");
+const app = require('../app');
+const request = require('supertest');
+const db = require('../db/connection');
 const seed = require("../db/seeds/seed");
-const testData = require("../db/data/test-data"); // connected to index.js
+const testData = require("../db/data/test-data");
 
 beforeEach(() => seed(testData));
-
-afterAll(() => db.end());
+afterAll(async () => await db.end());
 
 describe("Grades", () => {
   describe("Get All Grades", () => {
