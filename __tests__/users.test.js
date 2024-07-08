@@ -248,10 +248,3 @@ describe("Users", () => {
     });
   });
 });
-
-// SESSIONS
-
-//CLIMBS
-
-//Grades
-

@@ -9,8 +9,8 @@ exports.getAllUserSessions = (req, res, next) => {
 }
 
 exports.getUserSession = (req, res, next) => {
-    const { session_id } = req.params
-    selectUserSession(session_id).then((userSession) => {
+    const { id } = req.params
+    selectUserSession(id).then((userSession) => {
         res.status(200).send({ userSession })
     })
     .catch((err)=> {
@@ -19,10 +19,10 @@ exports.getUserSession = (req, res, next) => {
 };
 
 exports.postSessions = (req, res, next) => {
-    const { user_id, climbing_wall_id, date, duration_minutes } = req.body;
+    const { user_id, wall_id, date, duration_minutes } = req.body;
     return insertSession(
         user_id,
-        climbing_wall_id,
+        wall_id,
         date,
         duration_minutes
     )
@@ -52,8 +52,8 @@ exports.patchSessions = (req, res, next) => {
 
 
 exports.deleteSession = (req, res, next) => {
-    const { session_id } = req.params;
-    removeSession(session_id)
+    const { id } = req.params;
+    removeSession(id)
     .then((deletedSession) => {
         res.status(204).send()
     })

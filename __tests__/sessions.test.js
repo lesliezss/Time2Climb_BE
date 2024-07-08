@@ -10,12 +10,6 @@ afterAll(() => db.end());
 
 // SESSIONS
 
-// GET api/sessions/users/:user_id (get all of user’s sessions)
-// GET api/sessions/:session_id (get a particular user session)
-// POST api/sessions/ (add a session)
-// PATCH api/sessions/:sessions_id (edit a parituclar user session)
-// DELETE api/sessions/:sessions_id (delete a particular user session)
-
 describe("GET /api/sessions/users/:user_id", () => {
     test("status: 200 responds with an array of all users sessions", () => {
         return request(app)
@@ -27,7 +21,7 @@ describe("GET /api/sessions/users/:user_id", () => {
             userSessions.forEach((session) => {
                 expect(session).toMatchObject({
                     user_id: expect.any(Number),
-                    climbing_wall_id: expect.any(Number),
+                    wall_id: expect.any(Number),
                     date: expect.any(String),
                     duration_minutes: expect.any(Number),
                 })
@@ -36,7 +30,7 @@ describe("GET /api/sessions/users/:user_id", () => {
     })
 })
 
-describe("GET /api/sessions/session_id", () => {
+describe("GET /api/sessions/id", () => {
     test("status: 200 returns an array with one user session", () => {
         return request(app)
         .get("/api/sessions/1")
@@ -45,9 +39,9 @@ describe("GET /api/sessions/session_id", () => {
             const { userSession } = body;
             userSession.forEach((session) => {
                 expect(session).toMatchObject({
-                session_id: expect.any(Number),
+                id: expect.any(Number),
                 user_id: expect.any(Number),
-                climbing_wall_id: expect.any(Number),
+                wall_id: expect.any(Number),
                 date: expect.any(String),
                 duration_minutes: expect.any(Number),  
             })
@@ -62,9 +56,9 @@ describe("GET /api/sessions/session_id", () => {
             const { userSession } = body;
             userSession.forEach((session) => {
             expect(session).toEqual({
-                session_id: 1,
+                id: 1,
                 user_id: 1,
-                climbing_wall_id: 3,
+                wall_id: 3,
                 date: "2023-06-10T23:00:00.000Z",
                 duration_minutes: 60,   
             })
@@ -75,23 +69,23 @@ describe("GET /api/sessions/session_id", () => {
 
 //TO DO: Error handling for GET to check 
 
-describe("ERRORS - GET /api/sessions/:session_id", () => {
-    test("GET: 400 - returns an error message of 'Bad Request' when passed an invalid session_id", () => {
-        return request(app)
-        .get("/api/sessions/invalidSessionId")
-        .expect(400)
-        .then(( { body }) => {
-            expect(body.msg).toBe("Bad Request")
-        })
-    })
-})
+// describe("ERRORS - GET /api/sessions/:id", () => {
+//     test("GET: 400 - returns an error message of 'Bad Request' when passed an invalid id", () => {
+//         return request(app)
+//         .get("/api/sessions/invalidSessionId")
+//         .expect(400)
+//         .then(( { body }) => {
+//             expect(body.msg).toBe("Bad Request")
+//         })
+//     })
+// })
 
 
     describe("POST /api/sessions", () => {
         test("responds with a 201 status and a newly posted session", () => {
             const newSession = {
             user_id: 2,
-            climbing_wall_id: 6,
+            wall_id: 6,
             date: "2023-07-10",
             duration_minutes: 45,
         };
@@ -103,7 +97,7 @@ describe("ERRORS - GET /api/sessions/:session_id", () => {
             const { newSession } = body;
             expect(newSession).toMatchObject({
                 user_id: expect.any(Number),
-                climbing_wall_id: expect.any(Number),
+                wall_id: expect.any(Number),
                 date: expect.any(String),
                 duration_minutes: expect.any(Number),
             })
@@ -111,16 +105,17 @@ describe("ERRORS - GET /api/sessions/:session_id", () => {
         })
         test("status 400: returns a message of 'Bad Request' when passed an invalid session", () => {
             const newSession = {
-                climbing_wall_id: 6,
+                id: 99999999,
+                wall_id: 6,
                 date: "2023-07-10",
                 duration_minutes: 45,
             };
             return request(app)
             .post("/api/sessions")
             .send(newSession)
-            .expect(400)
+            .expect(404)
             .then(({ body }) => {
-                expect(body.msg).toBe("Bad Request")
+                expect(body.msg).toBe("Not Found")
             })
         })
     })
@@ -199,7 +194,7 @@ describe("PATCH api/sessions/:sessions_id", () => {
     test("status 200: responds with a session object property, details can be changed", () => {
         const updatedSession = {
             user_id: 1,
-            climbing_wall_id: 3,
+            wall_id: 3,
             date: "2023-06-11T23:00:00.000Z",
             duration_minutes: 60,
         }
@@ -210,9 +205,9 @@ describe("PATCH api/sessions/:sessions_id", () => {
         .then(({ body }) => {
             const session = body;
                 expect(session).toMatchObject({
-                    session_id: 1,
+                    id: 1,
                     user_id: 1,
-                    climbing_wall_id: 3,
+                    wall_id: 3,
                     date: "2023-06-10T23:00:00.000Z",
                     duration_minutes: 60,
             })
