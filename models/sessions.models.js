@@ -4,15 +4,16 @@ const db = require('../db/connection')
 exports.selectAllUserSessions = (user_id) => {
     return db.query(`SELECT * FROM T2C_Session WHERE user_id = $1;`, [user_id])
     .then(({ rows }) => {
-        // console.log(user_id, "USER_ID in models")
-        // console.log(rows, "ROWS in models")
         return rows;
     })
 }
 
-exports.selectUserSession = (id) => {
-    return db.query(`SELECT * FROM T2C_Session WHERE id = $1`, [id])
+exports.selectUserSession = (session_id) => {
+    console.log(session_id, "<<< MODELS")
+    if (isNaN(session_id)) return Promise.reject({ status: 400, msg: "Invalid Input"})
+    return db.query(`SELECT * FROM T2C_Session WHERE id = $1`, [session_id])
     .then(({ rows }) => {
+        if (!rows.length) return Promise.reject({ status: 404, msg: "Not found"})
         return rows
     })
 };
@@ -32,6 +33,7 @@ exports.updateSession = (body, id) => {
     if (!body.user_id || !body.wall_id || !body.date || !body.duration_minutes) {
         return Promise.reject({ status: 404, msg: "Not Found"});
     }
+
     return db.query(
         `UPDATE T2C_Session 
         SET user_id = $2, wall_id = $3, date = $4, duration_minutes = $5 

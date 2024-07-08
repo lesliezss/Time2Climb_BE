@@ -48,41 +48,28 @@ describe("GET /api/sessions/id", () => {
             })
         })
     })
-    test("status: 200 returns an array a specific array with one user session", () => {
+        })
+    test("GET: 400 - returns an error message of 'Invalid Input' when passed an invalid session id", () => {
         return request(app)
-        .get("/api/sessions/1")
-        .expect(200)
-        .then(({ body }) => {
-            const { userSession } = body;
-            userSession.forEach((session) => {
-            expect(session).toEqual({
-                id: 1,
-                user_id: 1,
-                wall_id: 3,
-                date: "2023-06-10T23:00:00.000Z",
-                duration_minutes: 60,   
-            })
-            })
+        .get("/api/sessions/notAnId")
+        .expect(400)
+        .then(( { body }) => {
+            expect(body.msg).toBe("Invalid Input");
         })
     })
-})
+    test("GET: 404, responds with an error message of 'Not found' when passed a session_id that does not exist", () => {
+        return request(app)
+        .get("/api/sessions/999")
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe("Not found")
+        })
+    })
 
-//TO DO: Error handling for GET to check 
-
-// describe("ERRORS - GET /api/sessions/:id", () => {
-//     test("GET: 400 - returns an error message of 'Bad Request' when passed an invalid id", () => {
-//         return request(app)
-//         .get("/api/sessions/invalidSessionId")
-//         .expect(400)
-//         .then(( { body }) => {
-//             expect(body.msg).toBe("Bad Request")
-//         })
-//     })
-// })
 
 
     describe("POST /api/sessions", () => {
-        test("responds with a 201 status and a newly posted session", () => {
+        test("POST: responds with a 201 status and a newly posted session", () => {
             const newSession = {
             user_id: 2,
             wall_id: 6,
@@ -119,76 +106,6 @@ describe("GET /api/sessions/id", () => {
             })
         })
     })
-
-    // describe("Error Handling(Post Users)", () => {
-    //     test("should respond with 400 for missing fields", () => {
-    //       const newUser = {
-    //         first_name: "Jane",
-    //         last_name: "Doe",
-    //       };
-  
-    //       return request(app)
-    //         .post("/api/users")
-    //         .send(newUser)
-    //         .expect(400)
-    //         .then(({ body }) => {
-    //           expect(body.msg).toBe("Bad Request: Missing required fields");
-    //         });
-    //     });
-  
-    //     test("should respond with 400 for incorrect data type for age", () => {
-    //       const newUser = {
-    //         first_name: "Jane",
-    //         last_name: "Doe",
-    //         age: "twenty-eight",
-    //         level_id: 2,
-    //       };
-  
-    //       return request(app)
-    //         .post("/api/users")
-    //         .send(newUser)
-    //         .expect(400)
-    //         .then(({ body }) => {
-    //           expect(body.msg).toBe("Bad Request: Invalid input");
-    //         });
-    //     });
-  
-    //     test("should respond with 400 for incorrect data type for level_id", () => {
-    //       const newUser = {
-    //         first_name: "Jane",
-    //         last_name: "Doe",
-    //         age: 28,
-    //         level_id: "two",
-    //       };
-  
-    //       return request(app)
-    //         .post("/api/users")
-    //         .send(newUser)
-    //         .expect(400)
-    //         .then(({ body }) => {
-    //           expect(body.msg).toBe("Bad Request: Invalid input");
-    //         });
-    //     });
-    //   });
-    // });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 describe("PATCH api/sessions/:sessions_id", () => {
     test("status 200: responds with a session object property, details can be changed", () => {

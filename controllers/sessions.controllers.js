@@ -6,17 +6,22 @@ exports.getAllUserSessions = (req, res, next) => {
     selectAllUserSessions(user_id).then((userSessions) => {
         res.status(200).send({ userSessions })
     })
+    .catch((err) => {
+        next(err)
+    })
 }
 
 exports.getUserSession = (req, res, next) => {
-    const { id } = req.params
-    selectUserSession(id).then((userSession) => {
+    const { session_id } = req.params
+    // if (isNaN(session_id)) return Promise.reject({ status: 400, msg: "Invalid Input"})
+selectUserSession(session_id).then((userSession) => {
         res.status(200).send({ userSession })
     })
     .catch((err)=> {
         next(err)
     })
 };
+
 
 exports.postSessions = (req, res, next) => {
     const { user_id, wall_id, date, duration_minutes } = req.body;

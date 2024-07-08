@@ -1,5 +1,4 @@
 const express = require("express");
-const {} = require('./controllers/app.controllers');
 const { getAllUsers, postUser, patchUser, deleteUser } = require("./controllers/users.controllers");
 
 const {
@@ -9,7 +8,11 @@ const {
   patchClimbsController,
   deleteClimbByIdController,
 } = require("./controllers/climbs.controllers");
+
+
 const { getAllGrades, getGrade } = require("./controllers/grades.controllers");
+
+const { getAllUserSessions, getUserSession, postSessions, patchSessions, deleteSession} = require("./controllers/sessions.controllers")
 
 
 const app = express()
@@ -54,17 +57,17 @@ app.delete("/api/climbs/:climb_id", deleteClimbByIdController);
 app.get("/api/grades", getAllGrades);
 app.get("/api/grades/:grade_id", getGrade);
 
-app.use((err, req, res, next) => {
-  if (err.status) {
-    res.status(err.status).send({ msg: err.msg });
-  } else next(err);
-});
+// app.use((err, req, res, next) => {
+//   if (err.status) {
+//     res.status(err.status).send({ msg: err.msg });
+//   } else next(err);
+// });
 
-app.use((err, req, res, next) => {
-  if (err.code === "22P02") {
-    res.status(400).send({ msg: "Invalid Input" });
-  } else next(err);
-});
+// app.use((err, req, res, next) => {
+//   if (err.code === "22P02") {
+//     res.status(400).send({ msg: "Invalid Input" });
+//   } else next(err);
+// });
 
 //handles when path is incorrect
 app.all("*", (req, res) => {
@@ -73,7 +76,7 @@ app.all("*", (req, res) => {
 //psql errors
 app.use((err, req, res, next) => {
   if (err.code === "22P02") {
-    res.status(400).send({ msg: "Bad Request" });
+    res.status(400).send({ msg: "Invalid Input" });
   } else {
     next(err);
   }
