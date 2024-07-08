@@ -3,7 +3,7 @@ const db = require("../connection");
 
 const seed = ({ usersData, T2CsessionData, climbsData }) => {
   const query = `
-    DROP TABLE IF EXISTS climbs, T2C_Session, T2C_User, wall, grade, climb_type, level, climb_outcome, grade_system CASCADE;
+    DROP TABLE IF EXISTS climb, T2C_Session, T2C_User, wall, grade, climb_type, level, climb_outcome, grade_system CASCADE;
   `;
 
   return db
@@ -13,6 +13,25 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
         CREATE TABLE IF NOT EXISTS level (
           id INT PRIMARY KEY,
           label VARCHAR(50)
+        );
+      `);
+    })
+    .then(() => {
+      return db.query(`
+        CREATE TABLE IF NOT EXISTS grade_system (
+          grade_system_id SERIAL PRIMARY KEY,
+          grade_system_label VARCHAR(50)
+        );
+      `);
+      
+    })
+    .then(() => {
+      return db.query(`
+        CREATE TABLE IF NOT EXISTS grades (
+          grade_id SERIAL PRIMARY KEY,
+          grade_label VARCHAR(10),
+          grade_system INT,
+          FOREIGN KEY (grade_system) REFERENCES grade_system(grade_system_id)
         );
       `);
     })
@@ -89,7 +108,7 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
     })
     .then(() => {
       return db.query(`
-        CREATE TABLE IF NOT EXISTS climbs (
+        CREATE TABLE IF NOT EXISTS climb (
           id SERIAL PRIMARY KEY,
           session_id INT NOT NULL,
           grade_id INT NOT NULL,
@@ -236,16 +255,18 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
       `, formattedT2CsessionData);
 
       return db.query(insertT2CsessionQuery);
+      return db.query(insertT2CsessionQuery);
     })
     .then(() => {
       const formattedClimbsData = climbsData.map(({ session_id, grade_id, climb_type_id, climb_outcome_id }) => [session_id, grade_id, climb_type_id, climb_outcome_id]);
       const insertClimbsQuery = format(`
-        INSERT INTO climbs (session_id, grade_id, type_id, outcome_id) VALUES %L RETURNING *;
+        INSERT INTO climb (session_id, grade_id, type_id, outcome_id) VALUES %L RETURNING *;
       `, formattedClimbsData);
 
       return db.query(insertClimbsQuery);
     })
     .catch((err) => {
+      console.error(err);
       console.error(err);
     });
 };

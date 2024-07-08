@@ -8,6 +8,7 @@ const {
     deleteSession,
 } = require('./controllers/sessions.controllers');
 const { getAllUsers, postUser, patchUser, deleteUser } = require("./controllers/users.controllers");
+const { getAllGrades, getGrade } = require("./controllers/grades.controllers");
 
 
 const app = express()
@@ -36,6 +37,13 @@ app.delete('/api/sessions/:sessions_id', deleteSession);
 
 //CLIMBS
 
+
+
+
+//GRADES
+
+app.get("/api/grades", getAllGrades)
+app.get("/api/grades/:grade_id", getGrade)
 
 
 
