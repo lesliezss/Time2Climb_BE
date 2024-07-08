@@ -2,7 +2,7 @@ const express = require("express");
 const {} = require('./controllers/app.controllers');
 const { getAllUsers, postUser, patchUser, deleteUser } = require("./controllers/users.controllers");
 const { getAllGrades, getGrade } = require("./controllers/grades.controllers");
-const { getWalls } = require('./controllers/walls.controllers');
+const { getWalls, getWallById, getWallsByUser } = require('./controllers/walls.controllers');
 
 const app = express()
 
@@ -43,8 +43,8 @@ app.get("/api/grades/:grade_id", getGrade)
 
 //WALLS
 app.get("/api/walls", getWalls);
-// app.get("/api/walls/:id", getWallsById);
-// app.get("/api/walls/user/:user_id", getWallsByUser);
+app.get("/api/walls/:id", getWallById);
+app.get("/api/walls/user/:user_id", getWallsByUser);
 
 //handles when path is incorrect
 app.all('*', (req, res) => {

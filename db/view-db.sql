@@ -1,12 +1,12 @@
-\c time_2_climb
+-- \c time_2_climb
 
-\echo '\n *** DEV DB *** \n'
+-- \echo '\n *** DEV DB *** \n'
 
-\echo '\n Dev climbs \n'
-SELECT * FROM climb;
+-- \echo '\n Dev climbs \n'
+-- SELECT * FROM climb;
 
-\echo '\n Dev Walls \n'
-SELECT * FROM wall;
+-- \echo '\n Dev Walls \n'
+-- SELECT * FROM wall;
 
 ----------------------------------
 
@@ -22,3 +22,11 @@ SELECT * FROM climb;
 
 \echo '\n Test Wall \n'
 SELECT * FROM wall;
+
+\echo '\n Session \n'
+SELECT * FROM T2C_Session;
+
+SELECT * FROM wall AS w
+LEFT OUTER JOIN session AS session
+ON
+WHERE user_id = [id]

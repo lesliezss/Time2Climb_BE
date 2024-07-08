@@ -5,8 +5,7 @@ const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data"); // connected to index.js
 
 beforeEach(() => seed(testData));
-
-afterAll(() => db.end());
+afterAll(async () => await db.end());
 
 // USERS
 describe("Users", () => {
