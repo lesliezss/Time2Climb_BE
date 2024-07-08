@@ -109,21 +109,84 @@ describe("ERRORS - GET /api/sessions/:session_id", () => {
             })
         })
         })
-        // test("status 400: returns a message of 'Bad Request' when passed an invalid session", () => {
-        //     const newSession = {
-        //         climbing_wall_id: 6,
-        //         date: "2023-07-10",
-        //         duration_minutes: 45,
-        //     };
-        //     return request(app)
-        //     .post("/api/sessions")
-        //     .send(newSession)
-        //     .expect(400)
-        //     .then(({ body }) => {
-        //         expect(body.msg).toBe("Bad Request - not found")
-        //     })
-        // })
+        test("status 400: returns a message of 'Bad Request' when passed an invalid session", () => {
+            const newSession = {
+                climbing_wall_id: 6,
+                date: "2023-07-10",
+                duration_minutes: 45,
+            };
+            return request(app)
+            .post("/api/sessions")
+            .send(newSession)
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe("Bad Request")
+            })
+        })
     })
+
+    // describe("Error Handling(Post Users)", () => {
+    //     test("should respond with 400 for missing fields", () => {
+    //       const newUser = {
+    //         first_name: "Jane",
+    //         last_name: "Doe",
+    //       };
+  
+    //       return request(app)
+    //         .post("/api/users")
+    //         .send(newUser)
+    //         .expect(400)
+    //         .then(({ body }) => {
+    //           expect(body.msg).toBe("Bad Request: Missing required fields");
+    //         });
+    //     });
+  
+    //     test("should respond with 400 for incorrect data type for age", () => {
+    //       const newUser = {
+    //         first_name: "Jane",
+    //         last_name: "Doe",
+    //         age: "twenty-eight",
+    //         level_id: 2,
+    //       };
+  
+    //       return request(app)
+    //         .post("/api/users")
+    //         .send(newUser)
+    //         .expect(400)
+    //         .then(({ body }) => {
+    //           expect(body.msg).toBe("Bad Request: Invalid input");
+    //         });
+    //     });
+  
+    //     test("should respond with 400 for incorrect data type for level_id", () => {
+    //       const newUser = {
+    //         first_name: "Jane",
+    //         last_name: "Doe",
+    //         age: 28,
+    //         level_id: "two",
+    //       };
+  
+    //       return request(app)
+    //         .post("/api/users")
+    //         .send(newUser)
+    //         .expect(400)
+    //         .then(({ body }) => {
+    //           expect(body.msg).toBe("Bad Request: Invalid input");
+    //         });
+    //     });
+    //   });
+    // });
+
+
+
+
+
+
+
+
+
+
+
 
 
 

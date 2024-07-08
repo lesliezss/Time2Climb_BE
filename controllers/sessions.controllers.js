@@ -57,5 +57,8 @@ exports.deleteSession = (req, res, next) => {
     .then((deletedSession) => {
         res.status(204).send()
     })
-}
+    .catch((err) => {
+        next(err);
+    });
+};
 
