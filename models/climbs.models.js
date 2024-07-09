@@ -73,7 +73,7 @@ function selectClimbsByUserId(user_id, next) {
       [user_id]
     )
     .then(({ rows }) => {
-      if (rows.length === 0) {
+      if (!rows.length) {
         return Promise.reject({
           status: 404,
           msg: `No climbs found for user_id: ${user_id}`,
@@ -132,7 +132,7 @@ function patchClimbsModel(climb_id, updates, next) {
   `;
 
   return db.query(query, values).then((result) => {
-    if (result.rows.length === 0) {
+    if (!result.rows.length) {
       return Promise.reject({
         status: 404,
         msg: `No climb found with id: ${climb_id}`,

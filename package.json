@@ -2,7 +2,6 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "husky": "^9.0.11",
     "pg": "^8.12.0",
     "pg-format": "^1.0.4"
   },
@@ -16,12 +15,13 @@
   "version": "1.0.0",
   "main": "listen.js",
   "scripts": {
+    "start": "node listen.js",
+    "seed-prod": "NODE_ENV=production npm run seed",
     "setup-dbs": "psql -f ./db/setup-db.sql",
     "seed": "node ./db/seeds/run-seed.js",
     "test": "jest",
     "view-db": "psql -f ./db/view-db.sql > ./db/view-db.txt",
-    "dev": "nodemon app.js",
-    "seed-prod": "NODE_ENV=production npm run seed"
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
