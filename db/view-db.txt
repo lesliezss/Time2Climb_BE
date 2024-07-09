@@ -43,3 +43,15 @@ You are now connected to database "time_2_climb_test" as user "nina".
  10 | White Hall Centre                    | SK13 8QB | 53.353198 | -1.914010 | Derbyshire
 (8 rows)
 
+ id |            name             | postcode |    lat    |   long    |     county      
+----+-----------------------------+----------+-----------+-----------+-----------------
+  3 | The Climbing Works          | S8 0UJ   | 53.352327 | -1.483694 | South Yorkshire
+  4 | The Foundry Climbing Centre | S3 8EN   | 53.390414 | -1.471701 | South Yorkshire
+(2 rows)
+
+ id |            name             | postcode |    lat    |   long    |     county      | session_count 
+----+-----------------------------+----------+-----------+-----------+-----------------+---------------
+  3 | The Climbing Works          | S8 0UJ   | 53.352327 | -1.483694 | South Yorkshire |             1
+  4 | The Foundry Climbing Centre | S3 8EN   | 53.390414 | -1.471701 | South Yorkshire |             1
+(2 rows)
+
