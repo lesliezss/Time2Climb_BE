@@ -1,4 +1,5 @@
 const express = require("express");
+
 const {
   getClimbsBySessionId,
   getClimbsByUserId,
@@ -14,40 +15,49 @@ const {
   deleteUser,
   getUserByID,
 } = require("./controllers/users.controllers");
+
 const { getAllGrades, getGrade } = require("./controllers/grades.controllers");
-const { getWalls, getWallById, getWallsByUser } = require('./controllers/walls.controllers');
+
+const {
+  getWalls,
+  getWallById,
+  getWallsByUser,
+} = require("./controllers/walls.controllers");
+
+const {
+  getAllUserSessions,
+  getUserSession,
+  postSessions,
+  patchSessions,
+  deleteSession,
+} = require("./controllers/sessions.controllers");
 
 const app = express();
 
 app.use(express.json());
 
-//edit endpoints.json as we go!! :)
-
-//get, post, patch, delete
-
 //USERS
+
 app.get("/api/users", getAllUsers);
-
-app.get('/api/users/:user_id',getUserByID)
-
+app.get("/api/users/:user_id", getUserByID);
 app.post("/api/users", postUser);
-
 app.patch("/api/users/:user_id", patchUser);
-
 app.delete("/api/users/:user_id", deleteUser);
 
 //SESSIONS
 
+app.get("/api/sessions/users/:user_id", getAllUserSessions);
+app.get("/api/sessions/:session_id", getUserSession);
+app.post("/api/sessions", postSessions);
+app.patch("/api/sessions/:sessions_id", patchSessions);
+app.delete("/api/sessions/:sessions_id", deleteSession);
+
 //CLIMBS
 
 app.get("/api/climbs/:session_id", getClimbsBySessionId);
-
 app.get("/api/climbs/users/:user_id", getClimbsByUserId);
-
 app.post("/api/climbs", postNewClimbController);
-
 app.patch("/api/climbs/:climb_id", patchClimbsController);
-
 app.delete("/api/climbs/:climb_id", deleteClimbByIdController);
 
 //GRADES
@@ -56,6 +66,7 @@ app.get("/api/grades", getAllGrades);
 app.get("/api/grades/:grade_id", getGrade);
 
 //WALLS
+
 app.get("/api/walls", getWalls);
 app.get("/api/walls/:id", getWallById);
 app.get("/api/walls/user/:user_id", getWallsByUser); // Gets walls excluding those where the user has sessions
