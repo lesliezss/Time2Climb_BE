@@ -23,7 +23,8 @@ exports.getWalls = ((req, res, next) => {
 });
 
 exports.getWallsByUser = ((req, res, next) => {
-    return getWallsQuery(next)
+    // Returns walls excluding those where the user has sessions
+    return getWallsByUserQuery(req.params.user_id, next)
         .then((result) => {
             return res.status(200).send({walls: result});
         })

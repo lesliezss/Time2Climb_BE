@@ -55,7 +55,7 @@ app.get("/api/grades/:grade_id", getGrade);
 //WALLS
 app.get("/api/walls", getWalls);
 app.get("/api/walls/:id", getWallById);
-app.get("/api/walls/user/:user_id", getWallsByUser);
+app.get("/api/walls/user/:user_id", getWallsByUser); // Gets walls excluding those where the user has sessions
 
 //psql errors
 app.use((err, req, res, next) => {
