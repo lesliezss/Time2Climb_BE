@@ -5,51 +5,200 @@
     "exampleResponse": {
       "climbs": [
         {
-          "climb_id": 1,
+          "id": 1,
           "session_id": 1,
           "grade_id": 51,
           "grade_label": "6b+",
           "grade_system_id": 3,
           "grade_system_label": "Font",
-          "climb_type_id": 2,
-          "climb_type_label": "Boulder (font)",
+          "type_id": 2,
+          "type_label": "Boulder (font)",
           "climb_outcome_id": 1,
-          "climb_outcome_label": "Onsight (first attempt - no beta)"
+          "outcome_label": "Onsight (first attempt - no beta)"
         }
       ]
     }
   },
-  "/api/climbs/users/:user_id": {
+  "GET /api/climbs/users/:user_id": {
     "description": "response with an array of climbs of a particular user",
     "queries": ["user_id"],
     "exampleResponse": {
       "climbs": [
         {
           "user_id": 1,
-          "climb_id": 1,
+          "id": 1,
           "session_id": 1,
           "grade_id": 51,
           "grade_label": "6b+",
-          "grade_system_id": "3",
+          "grade_system_id": 3,
           "grade_system_label": "Font",
-          "climb_type_id": 2,
-          "climb_type_label": "Boulder (font)",
+          "type_id": 2,
+          "type_label": "Boulder (font)",
           "climb_outcome_id": 1,
-          "climb_outcome_label": "Onsight (first attempt - no beta)"
+          "outcome_label": "Onsight (first attempt - no beta)"
         }
       ]
     }
   },
-  "/api/climbs": {
+  "POST /api/climbs": {
     "description": "add a climb for a user, response with the posted climb",
     "exampleResponse": {
       "newClimb": {
-        "climb_id": 14,
+        "id": 14,
         "session_id": 5,
         "grade_id": 15,
         "type_id": 4,
         "climb_outcome_id": 3
       }
+    }
+  },
+  "PATCH /api/climbs/:climb_id": {
+    "description": "updates an existing climb and response with the updated climb",
+    "queries": ["climb_id"],
+    "exampleResponse": {
+      "updatedClimb": {
+        "id": 2,
+        "session_id": 1,
+        "grade_id": 2,
+        "type_id": 1,
+        "climb_outcome_id": 1
+      }
+    }
+  },
+  "DELETE /api/climbs/:climb_id": {
+    "description": "delete an existing climb by climb_id",
+    "queries": ["climb_id"],
+    "exampleResponse": {
+      "msg": "Climb deleted successfully"
+    }
+  },
+  "GET /api/grades": {
+    "description": "get all grades",
+    "exampleResponse": {
+      "grades": [
+        {
+          "grade_id": 1,
+          "grade_label": "5.10a",
+          "grade_system_id": 1,
+          "grade_system_label": "YDS"
+        }
+      ]
+    }
+  },
+  "GET /api/grades/:grade_id": {
+    "description": "get grade by grade_id",
+    "queries": ["grade_id"],
+    "exampleResponse": {
+      "grade": {
+        "grade_id": 5,
+        "grade_label": "6b+",
+        "grade_system_id": 3,
+        "grade_system_label": "Font"
+      }
+    }
+  },
+  "GET /api/users": {
+    "description": "get all users",
+    "exampleResponse": {
+      "users": [
+        {
+          "id": 1,
+          "first_name": "Alice",
+          "last_name": "Smith",
+          "age": 25,
+          "level_id": 2
+        }
+      ]
+    }
+  },
+  "GET /api/users/:user_id": {
+    "description": "get user by user_id",
+    "queries": ["user_id"],
+    "exampleResponse": {
+      "user": {
+        "id": 2,
+        "first_name": "Bob",
+        "last_name": "Johnson",
+        "age": 30,
+        "level_id": 3
+      }
+    }
+  },
+  "POST /api/users": {
+    "description": "create a new user",
+    "exampleResponse": {
+      "user": {
+        "id": 4,
+        "first_name": "John",
+        "last_name": "Doe",
+        "age": 28,
+        "level_id": 2
+      }
+    }
+  },
+  "PATCH /api/users/:user_id": {
+    "description": "update user details",
+    "queries": ["user_id"],
+    "exampleResponse": {
+      "user": {
+        "id": 1,
+        "first_name": "Chris",
+        "last_name": "Updated",
+        "age": 36,
+        "level_id": 3
+      }
+    }
+  },
+  "DELETE /api/users/:user_id": {
+    "description": "delete user by user_id",
+    "queries": ["user_id"],
+    "exampleResponse": {
+      "msg": "User deleted successfully"
+    }
+  },
+  "GET /api/walls/:wall_id": {
+    "description": "get wall by wall_id",
+    "queries": ["wall_id"],
+    "exampleResponse": {
+      "wall": {
+        "id": 3,
+        "name": "The Climbing Works",
+        "postcode": "S8 0UJ",
+        "lat": "53.352327",
+        "long": "-1.483694",
+        "county": "South Yorkshire"
+      }
+    }
+  },
+  "GET /api/walls": {
+    "description": "get all walls",
+    "exampleResponse": {
+      "walls": [
+        {
+          "id": 1,
+          "name": "Wall 1",
+          "postcode": "S1 1AA",
+          "lat": "53.38297",
+          "long": "-1.4659",
+          "county": "South Yorkshire"
+        }
+      ]
+    }
+  },
+  "GET /api/walls/user/:user_id": {
+    "description": "get walls by user_id",
+    "queries": ["user_id"],
+    "exampleResponse": {
+      "walls": [
+        {
+          "id": 1,
+          "name": "Wall 1",
+          "postcode": "S1 1AA",
+          "lat": "53.38297",
+          "long": "-1.4659",
+          "county": "South Yorkshire"
+        }
+      ]
     }
   }
 }
