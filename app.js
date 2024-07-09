@@ -12,6 +12,7 @@ const {
   postUser,
   patchUser,
   deleteUser,
+  getUserByID,
 } = require("./controllers/users.controllers");
 const { getAllGrades, getGrade } = require("./controllers/grades.controllers");
 const { getWalls, getWallById, getWallsByUser } = require('./controllers/walls.controllers');
@@ -26,6 +27,8 @@ app.use(express.json());
 
 //USERS
 app.get("/api/users", getAllUsers);
+
+app.get('/api/users/:user_id',getUserByID)
 
 app.post("/api/users", postUser);
 
