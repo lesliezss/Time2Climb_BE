@@ -8,6 +8,19 @@ exports.fetchUsers = () => {
   });
 };
 
+exports.fetchUserByID = (userID) => {
+
+  
+
+  return db.query(`Select * From t2c_user where id = $1`, [userID])
+  .then(({rows}) =>  {
+    if (!rows.length) return Promise.reject({status:404, msg: "User not found"})
+    
+    return rows[0]
+  })
+
+}
+
 exports.submitUser = (userDetails) => {
   if (Object.keys(userDetails).length !== 4)
     return Promise.reject({

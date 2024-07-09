@@ -3,12 +3,31 @@ const {
   submitUser,
   updateUser,
   removeUser,
+  fetchUserByID,
 } = require("../models/users.models");
 
 exports.getAllUsers = (req, res) => {
     
   fetchUsers().then((users) => res.status(200).send({ users }));
 };
+
+exports.getUserByID = (req, res, next) => {
+  const {user_id} = req.params
+
+  if(isNaN(user_id)) throw {msg :"Bad Request: Invalid user_id", status: 400}
+
+  fetchUserByID(user_id).then((user) => {
+    
+    res.status(200).send({user})
+
+  })
+  .catch((err) => {
+    
+    next(err)
+
+  })
+
+}
 
 exports.postUser = (req, res, next) => {
   const { body } = req;

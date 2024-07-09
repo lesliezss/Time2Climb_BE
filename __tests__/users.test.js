@@ -30,29 +30,48 @@ describe("Users", () => {
     });
 
 
-// this commented out test is for if we ever wanted to make an endpoint for geting an individual user
-    
-//     describe("Error Handling(Get User)", () => {
-//       test("should respond with 404 for non-existent user", () => {
-//         const nonExistentUserId = 9999;
-//         return request(app)
-//           .get(`/api/users/${nonExistentUserId}`)
-//           .expect(404)
-//           .then(({ body }) => {
-//             expect(body.msg).toBe("User not found");
-//           });
-//       });
+describe("Get User", () => {
+  test('should get correct user', () => {
+    return request(app)
+    .get("/api/users/2")
+    .expect(200)
+    .then(({body}) => {
+      const {user} = body
+      expect(user).toMatchObject({
+        id: expect.any(Number),
+        first_name: expect.any(String),
+        last_name: expect.any(String),
+        age: expect.any(Number),
+        level_id: expect.any(Number),
+      })
 
-//       test("should respond with 400 for Bad Request (user_id is not a number)", () => {
-//         const invalidUserId = "invalid_id";
-//         return request(app)
-//           .get(`/api/users/${invalidUserId}`)
-//           .expect(400)
-//           .then(({ body }) => {
-//             expect(body.msg).toBe("Bad Request: Invalid user_id");
-//           });
-//       });
-//     });
+    })
+  });
+
+
+  describe("Error Handling(Get User)", () => {
+    test("should respond with 404 for non-existent user", () => {
+      const nonExistentUserId = 9999;
+      return request(app)
+        .get(`/api/users/${nonExistentUserId}`)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("User not found");
+        });
+    });
+
+    test("should respond with 400 for Bad Request (user_id is not a number)", () => {
+      const invalidUserId = "invalid_id";
+      return request(app)
+        .get(`/api/users/${invalidUserId}`)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request: Invalid user_id");
+        });
+    });
+  });
+});
+
   });
 
   describe("Post User", () => {
