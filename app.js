@@ -57,6 +57,10 @@ app.get("/api/walls", getWalls);
 app.get("/api/walls/:id", getWallById);
 app.get("/api/walls/user/:user_id", getWallsByUser);
 
+app.all("*", (req, res) => {
+  res.status(404).send({ msg: "Not Found" });
+});
+
 //psql errors
 app.use((err, req, res, next) => {
   if (err.code === "22P02") {
