@@ -55,6 +55,14 @@ WHERE w.id NOT IN (
   SELECT wall_id FROM t2c_session WHERE user_id = 1
 );
 
+SELECT * FROM wall
+        WHERE id IN (
+            SELECT wall_id FROM t2c_session WHERE user_id = 1
+        );
 
-
-
+SELECT w.*, COUNT(ts.id) AS session_count
+FROM wall AS w
+JOIN t2c_session AS ts
+ON w.id = ts.wall_id
+WHERE user_id = 1
+GROUP BY w.id;

@@ -1,4 +1,4 @@
-const { getWallByIdQuery, getWallsQuery, getWallsByUserQuery } = require('../models/walls.models');
+const { getWallByIdQuery, getWallsQuery, getFilteredWallsQuery, getUserSessionWallsQuery } = require('../models/walls.models');
 
 exports.getWallById = (req, res, next) => {
     return getWallByIdQuery(req.params.id, next)
@@ -23,13 +23,34 @@ exports.getWalls = ((req, res, next) => {
 });
 
 exports.getWallsByUser = ((req, res, next) => {
-    // Returns walls excluding those where the user has sessions
-    return getWallsByUserQuery(req.params.user_id, next)
+
+    // Get walls excluding those where the user has sessions
+    const walls = getFilteredWallsQuery(req.params.user_id, next)
         .then((result) => {
-            return res.status(200).send({walls: result});
+            return result;
+        })
+        .catch((err) => {
+            next(err);
+        });
+
+    // Get only walls where the user has sessions
+    const userSessions = getUserSessionWallsQuery(req.params.user_id, next)
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => {
+            next(err);
+        });
+
+    return Promise.all([walls, userSessions])
+        .then((results) => {
+            return res.status(200).send({ 
+                walls: {
+                    filteredWalls: results[0],
+                    userSessionWalls: results[1]
+            }});
         })
         .catch((err) => {
             next(err);
         });
 });
-
