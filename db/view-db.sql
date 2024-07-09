@@ -38,10 +38,23 @@
 -- \echo '\n climb-outcome \n'
 -- SELECT * FROM climb-outcome;
 
-\echo '\n level \n'
-SELECT * FROM level;
+-- \echo '\n level \n'
+-- SELECT * FROM level;
 
--- SELECT * FROM wall AS w
--- LEFT OUTER JOIN session AS session
--- ON
--- WHERE user_id = [id]
+SELECT * FROM wall;
+
+SELECT * FROM t2c_session;
+
+SELECT * FROM wall AS w
+JOIN t2c_session AS s
+ON s.wall_id = w.id
+WHERE s.user_id = 1;
+
+SELECT * FROM wall AS w
+WHERE w.id NOT IN (
+  SELECT wall_id FROM t2c_session WHERE user_id = 1
+);
+
+
+
+

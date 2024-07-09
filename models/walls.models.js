@@ -32,11 +32,13 @@ exports.getWallsQuery = ((next) => {
         });
 });
 
-exports.getWallsByUserQuery = ((next) => {
+exports.getWallsByUserQuery = ((user_id, next) => {
+    // Returns walls excluding those where the user has sessions
     return db.query(`
-        SELECT *
-        FROM wall
-        ORDER BY county, name ASC`)
+        SELECT * FROM wall
+        WHERE id NOT IN (
+            SELECT wall_id FROM t2c_session WHERE user_id = $1
+        );`, [user_id])
         .then(({rows}) =>{
             if (rows.length === 0) {
                 return Promise.reject({status: 404, msg: 'Not found'});
