@@ -62,13 +62,34 @@ describe('Get walls', () => {
     });
 });
 
-describe('Get walls by user', () => {
-    it('Returns walls for the specified user only', () => {
+describe('Get walls with user session filter', () => {
+    it('Returns correct wall data for the specified user', () => {
+        const expected = [
+            {
+              id: 3,
+              name: 'The Climbing Works',
+              postcode: 'S8 0UJ',
+              lat: '53.352327',
+              long: '-1.483694',
+              county: 'South Yorkshire',
+              session_count: '1'
+            },
+            {
+              id: 4,
+              name: 'The Foundry Climbing Centre',
+              postcode: 'S3 8EN',
+              lat: '53.390414',
+              long: '-1.471701',
+              county: 'South Yorkshire',
+              session_count: '1'
+            }
+          ];
         return request(app)
             .get('/api/walls/user/1')
             .expect(200)
             .then(({body}) => {
-                expect(body.walls).toHaveLength(8);
+                expect(body.walls.filteredWalls).toHaveLength(8);
+                expect(body.walls.userSessionWalls).toHaveLength(2);
             });
     });
 });

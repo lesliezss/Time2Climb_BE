@@ -58,7 +58,7 @@ app.get("/api/grades/:grade_id", getGrade);
 //WALLS
 app.get("/api/walls", getWalls);
 app.get("/api/walls/:id", getWallById);
-app.get("/api/walls/user/:user_id", getWallsByUser); // Gets walls excluding those where the user has sessions
+app.get("/api/walls/user/:user_id", getWallsByUser);
 
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
