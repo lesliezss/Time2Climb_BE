@@ -62,20 +62,13 @@ describe('Get walls', () => {
     });
 });
 
-// describe('Get walls by user', () => {
-//     it('Returns walls for the specified user only', () => {
-//         return request(app)
-//             .get('/api/walls/user/1')
-//             .expect(200)
-//             .then(({body}) => {
-//                 expect(body.wall).toEqual([{
-//                     id: 3,
-//                     name: 'The Climbing Works',
-//                     postcode: 'S8 0UJ',
-//                     lat: "53.352327",
-//                     long: "-1.483694",
-//                     county: 'South Yorkshire'
-//                 }]);
-//             });
-//     });
-// });
+describe('Get walls by user', () => {
+    it('Returns walls for the specified user only', () => {
+        return request(app)
+            .get('/api/walls/user/1')
+            .expect(200)
+            .then(({body}) => {
+                expect(body.walls).toHaveLength(8);
+            });
+    });
+});
