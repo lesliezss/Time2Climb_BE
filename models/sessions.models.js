@@ -3,8 +3,7 @@ const db = require("../db/connection");
 // TODO: update the tests for this query to check the extra data extracted, i.e. wall name and climb count
 exports.selectAllUserSessions = (user_id) => {
   return db
-    .query(
-      `
+    .query(`
       SELECT 
         ts.id AS session_id,
         ts.user_id,
@@ -26,6 +25,34 @@ exports.selectAllUserSessions = (user_id) => {
         return Promise.reject({
           status: 404,
           msg: `No sessions found for user_id: ${user_id}`,
+        });
+      }
+      return rows;
+    });
+};
+
+// TODO: update the tests for this query to check the extra data extracted, i.e. wall name and climb count
+exports.getUserSessionsByWallQuery = (user_id, wall_id) => {
+  return db
+    .query(`
+      SELECT 
+        ts.*,
+        w.name AS wall_name,
+        (SELECT COUNT(c.id) 
+        FROM climb c 
+        WHERE c.session_id = ts.id) AS climb_count
+      FROM t2c_session AS ts
+      LEFT JOIN wall AS w
+      ON ts.wall_id = w.id
+      WHERE ts.user_id = $1
+      AND ts.wall_id = $2;`,
+      [user_id, wall_id]
+    )
+    .then(({ rows }) => {
+      if (rows.length === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: `No sessions found for user_id: ${user_id} and wall_id: ${wall_id}`,
         });
       }
       return rows;

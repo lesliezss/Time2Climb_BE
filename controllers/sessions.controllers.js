@@ -4,11 +4,23 @@ const {
   insertSession,
   updateSession,
   removeSession,
+  getUserSessionsByWallQuery
 } = require("../models/sessions.models");
 
 exports.getAllUserSessions = (req, res, next) => {
   const { user_id } = req.params;
   selectAllUserSessions(user_id)
+    .then((userSessions) => {
+      res.status(200).send({ userSessions });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getUserSessionsByWall = (req, res, next) => {
+  const { user_id, wall_id } = req.params;
+  selectAllUserSessions(user_id, wall_id)
     .then((userSessions) => {
       res.status(200).send({ userSessions });
     })
