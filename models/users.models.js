@@ -2,27 +2,23 @@ const db = require("../db/connection");
 
 exports.fetchUsers = () => {
   return db.query(`Select * From t2c_user`).then(({ rows }) => {
-
-    
     return rows;
   });
 };
 
 exports.fetchUserByID = (userID) => {
+  return db
+    .query(`Select * From t2c_user where id = $1`, [userID])
+    .then(({ rows }) => {
+      if (!rows.length)
+        return Promise.reject({ status: 404, msg: "User not found" });
 
-  
-
-  return db.query(`Select * From t2c_user where id = $1`, [userID])
-  .then(({rows}) =>  {
-    if (!rows.length) return Promise.reject({status:404, msg: "User not found"})
-    
-    return rows[0]
-  })
-
-}
+      return rows[0];
+    });
+};
 
 exports.submitUser = (userDetails) => {
-  if (Object.keys(userDetails).length !== 4)
+  if (Object.keys(userDetails).length !== 5)
     return Promise.reject({
       status: 400,
       msg: "Bad Request: Missing required fields",
@@ -30,8 +26,8 @@ exports.submitUser = (userDetails) => {
 
   return db
     .query(
-      `INSERT INTO t2c_user (first_name, last_name, age, level_id) 
-        VALUES ($1, $2, $3, $4)
+      `INSERT INTO t2c_user (first_name, last_name, age, level_id, firebase_id) 
+        VALUES ($1, $2, $3, $4, $5)
         Returning *
 
          `,
@@ -39,11 +35,11 @@ exports.submitUser = (userDetails) => {
         userDetails.first_name,
         userDetails.last_name,
         userDetails.age,
-        userDetails.level_id
+        userDetails.level_id,
+        userDetails.firebase_id
       ]
     )
     .then(({ rows }) => {
-      
       return rows[0];
     })
     .catch((err) => {
@@ -51,30 +47,29 @@ exports.submitUser = (userDetails) => {
     });
 };
 
-exports.updateUser = (userDetails, user_id) => {
-  //if (Object.keys(userDetails).length !== 4) return Promise.reject({status:400, msg: "Bad Request: Missing required fields" })
+exports.updateUser = (updates, user_id) => {
+  const fields = Object.keys(updates);
+  const values = Object.values(updates);
 
-  const keysToCheck = ["first_name", "last_name", "age", "level_id"];
+  if (fields.length === 0) {
+    return Promise.reject({
+      status: 400,
+      msg: "No fields provided to update.",
+    });
+  }
 
-if (!keysToCheck.every(key => Object.keys(userDetails).includes(key))) return Promise.reject({status:400, msg: "Bad Request: Missing required fields" })
-   
-    const query = `
-    UPDATE t2c_user
-    SET
-        first_name = $2,
-        last_name = $3,
-        age = $4,
-        level_id = $5
-    WHERE id = $1
-    RETURNING *;
+  const setClause = fields
+    .map((field, index) => `${field} = $${index + 1}`)
+    .join(", ");
+
+  values.push(user_id);
+
+  const query = `
+  UPDATE t2c_user
+  SET ${setClause}
+  WHERE id = $${fields.length + 1}
+  RETURNING *;
 `;
-  const values = [
-    user_id,
-    userDetails.first_name,
-    userDetails.last_name,
-    userDetails.age,
-    userDetails.level_id
-  ];
 
   return db
     .query(query, values)
@@ -82,7 +77,10 @@ if (!keysToCheck.every(key => Object.keys(userDetails).includes(key))) return Pr
       return rows[0];
     })
     .catch((err) => {
-      return Promise.reject({ status: 400, msg: "Bad Request: Bad Request" });
+      return Promise.reject({
+        status: 400,
+        msg: `Bad Request: PSQL Error (${err.code})`,
+      });
     });
 };
 
@@ -90,7 +88,7 @@ exports.removeUser = (user_id) => {
   if (isNaN(user_id))
     return Promise.reject({ status: 400, msg: "Bad Request: Invalid user_id" });
 
-    const query = `
+  const query = `
         DELETE FROM t2c_user
         WHERE id = $1
         RETURNING *;
@@ -101,8 +99,5 @@ exports.removeUser = (user_id) => {
     .then(({ rows }) => {
       return rows[0];
     })
-    .catch((err) => {
-       
-        
-    });
+    .catch((err) => {});
 };
