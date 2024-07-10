@@ -18,6 +18,17 @@ exports.getAllUserSessions = (req, res, next) => {
     });
 };
 
+exports.getUserSessionsByWall = (req, res, next) => {
+  const { user_id, wall_id } = req.params;
+  selectAllUserSessions(user_id, wall_id)
+    .then((userSessions) => {
+      res.status(200).send({ userSessions });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
 exports.getUserSession = (req, res, next) => {
   const { session_id } = req.params;
   selectUserSession(session_id)
