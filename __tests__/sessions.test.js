@@ -53,7 +53,10 @@ describe("GET /api/sessions/id", () => {
       .then(({ body }) => {
         const { userSession } = body;
         userSession.forEach((session) => {
+          Object.keys(session).length=7,
           expect(session).toMatchObject({
+            wall_name:expect.any(String),
+            climb_count: expect.any(String),
             id: expect.any(Number),
             user_id: expect.any(Number),
             wall_id: expect.any(Number),

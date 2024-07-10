@@ -24,54 +24,52 @@ describe("Users", () => {
               last_name: expect.any(String),
               age: expect.any(Number),
               level_id: expect.any(Number),
+              firebase_id: expect.any(String)
             });
           });
         });
     });
 
+    describe("Get User", () => {
+      test("should get correct user", () => {
+        return request(app)
+          .get("/api/users/2")
+          .expect(200)
+          .then(({ body }) => {
+            const { user } = body;
+            expect(user).toMatchObject({
+              id: expect.any(Number),
+              first_name: expect.any(String),
+              last_name: expect.any(String),
+              age: expect.any(Number),
+              level_id: expect.any(Number),
+              firebase_id: expect.any(String)
+            });
+          });
+      });
 
-describe("Get User", () => {
-  test('should get correct user', () => {
-    return request(app)
-    .get("/api/users/2")
-    .expect(200)
-    .then(({body}) => {
-      const {user} = body
-      expect(user).toMatchObject({
-        id: expect.any(Number),
-        first_name: expect.any(String),
-        last_name: expect.any(String),
-        age: expect.any(Number),
-        level_id: expect.any(Number),
-      })
-
-    })
-  });
-
-
-  describe("Error Handling(Get User)", () => {
-    test("should respond with 404 for non-existent user", () => {
-      const nonExistentUserId = 9999;
-      return request(app)
-        .get(`/api/users/${nonExistentUserId}`)
-        .expect(404)
-        .then(({ body }) => {
-          expect(body.msg).toBe("User not found");
+      describe("Error Handling(Get User)", () => {
+        test("should respond with 404 for non-existent user", () => {
+          const nonExistentUserId = 9999;
+          return request(app)
+            .get(`/api/users/${nonExistentUserId}`)
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).toBe("User not found");
+            });
         });
-    });
 
-    test("should respond with 400 for Bad Request (user_id is not a number)", () => {
-      const invalidUserId = "invalid_id";
-      return request(app)
-        .get(`/api/users/${invalidUserId}`)
-        .expect(400)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Bad Request: Invalid user_id");
+        test("should respond with 400 for Bad Request (user_id is not a number)", () => {
+          const invalidUserId = "invalid_id";
+          return request(app)
+            .get(`/api/users/${invalidUserId}`)
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Bad Request: Invalid user_id");
+            });
         });
+      });
     });
-  });
-});
-
   });
 
   describe("Post User", () => {
@@ -81,6 +79,7 @@ describe("Get User", () => {
         last_name: "Doe",
         age: 28,
         level_id: 2,
+        firebase_id: "wklenrlkwnlr"
       };
 
       return request(app)
@@ -95,6 +94,7 @@ describe("Get User", () => {
             last_name: "Doe",
             age: 28,
             level_id: 2,
+            firebase_id: "wklenrlkwnlr"
           });
         });
     });
@@ -121,6 +121,7 @@ describe("Get User", () => {
           last_name: "Doe",
           age: "twenty-eight",
           level_id: 2,
+          firebase_id: "wklenrlkwnlr"
         };
 
         return request(app)
@@ -138,6 +139,7 @@ describe("Get User", () => {
           last_name: "Doe",
           age: 28,
           level_id: "two",
+          firebase_id: "wklenrlkwnlr"
         };
 
         return request(app)
@@ -154,10 +156,8 @@ describe("Get User", () => {
   describe("Patch User", () => {
     test("should change user details", () => {
       const updatedUser = {
-        first_name: "Chris",
         last_name: "Updated",
         age: 36,
-        level_id: 3,
       };
 
       return request(app)
@@ -167,7 +167,6 @@ describe("Get User", () => {
         .then(({ body }) => {
           const user = body;
           expect(user).toMatchObject({
-            id: 1,
             first_name: "Chris",
             last_name: "Updated",
             age: 36,
@@ -177,9 +176,9 @@ describe("Get User", () => {
     });
 
     describe("Error Handling(Patch User)", () => {
-      test("should respond with 400 for missing fields", () => {
+      test("should respond with 400 for incorrect", () => {
         const updatedUser = {
-          first_name: "Chris",
+          _name: "Chris",
         };
 
         return request(app)
@@ -187,7 +186,18 @@ describe("Get User", () => {
           .send(updatedUser)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe("Bad Request: Missing required fields");
+            expect(body.msg).toBe("Bad Request: No valid keys found");
+          });
+      });
+      test("should respond with 400 for incorrect", () => {
+        const updatedUser = {};
+
+        return request(app)
+          .patch("/api/users/1")
+          .send(updatedUser)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Bad Request: No fields provided to update.");
           });
       });
 
@@ -204,7 +214,7 @@ describe("Get User", () => {
           .send(updatedUser)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe("Bad Request: Bad Request");
+            expect(body.msg).toBe("Bad Request: PSQL Error (22P02)");
           });
       });
 
@@ -221,7 +231,7 @@ describe("Get User", () => {
           .send(updatedUser)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe("Bad Request: Bad Request");
+            expect(body.msg).toBe("Bad Request: PSQL Error (22P02)");
           });
       });
     });
@@ -267,12 +277,3 @@ describe("Get User", () => {
   });
 });
 
-// SESSIONS
-
-//CLIMBS
-
-// <<<<<<<< HEAD:__tests__/user.test.js
-// ========
-// //Grades
-
-// >>>>>>>> 3a51b9b6279504ecd1a562135ecf757ef8442d04:__tests__/users.test.js

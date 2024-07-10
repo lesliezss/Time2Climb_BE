@@ -3,7 +3,8 @@ const db = require("../db/connection");
 // TODO: update the tests for this query to check the extra data extracted, i.e. wall name and climb count
 exports.selectAllUserSessions = (user_id) => {
   return db
-    .query(`
+    .query(
+      `
       SELECT 
         ts.id AS session_id,
         ts.user_id,
@@ -17,7 +18,9 @@ exports.selectAllUserSessions = (user_id) => {
       FROM t2c_session AS ts
       LEFT JOIN wall AS w
       ON ts.wall_id = w.id
-      WHERE ts.user_id = $1;`, [user_id])
+      WHERE ts.user_id = $1;`,
+      [user_id]
+    )
     .then(({ rows }) => {
       if (rows.length === 0) {
         return Promise.reject({
@@ -31,7 +34,18 @@ exports.selectAllUserSessions = (user_id) => {
 
 exports.selectUserSession = (session_id) => {
   return db
-    .query(`SELECT * FROM T2C_Session WHERE id = $1`, [session_id])
+    .query(
+      `SELECT
+      t2c_session.*, w.name AS wall_name,
+      (SELECT COUNT(c.id)
+      FROM climb c
+      WHERE c.session_id = t2c_session.id) AS climb_count
+      FROM t2c_session
+      LEFT JOIN wall AS w
+      ON t2c_session.wall_id = w.id
+      WHERE t2c_session.id = $1;`,
+      [session_id]
+    )
     .then(({ rows }) => {
       if (!rows.length)
         return Promise.reject({
@@ -98,12 +112,12 @@ exports.removeSession = (sessions_id) => {
   return db
     .query(`DELETE FROM T2C_Session WHERE id = $1 RETURNING *;`, [sessions_id])
     .then((result) => {
-        if (result.rowCount === 0) {
-            return Promise.reject({
-              status: 404,
-              msg: `No climb found with id: ${sessions_id}`,
-            });
-          }
+      if (result.rowCount === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: `No climb found with id: ${sessions_id}`,
+        });
+      }
       return result;
     });
 };
