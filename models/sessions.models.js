@@ -1,5 +1,6 @@
 const db = require("../db/connection");
 
+// TODO: update the tests for this query to check the extra data extracted, i.e. wall name and climb count
 exports.selectAllUserSessions = (user_id) => {
   return db
     .query(`
