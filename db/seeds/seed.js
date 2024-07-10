@@ -117,6 +117,9 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
           first_name VARCHAR(50) NOT NULL,
           last_name VARCHAR(50) NOT NULL,
           age INT,
+          bio VARCHAR(150),
+          img_url VARCHAR(100),
+          firebase_id VARCHAR(50) NOT NULL,
           level_id INT,
           FOREIGN KEY (level_id) REFERENCES level(id) ON DELETE CASCADE
         );
@@ -313,9 +316,9 @@ const seed = ({ usersData, T2CsessionData, climbsData }) => {
 
     // Seed test data
     .then(() => {
-      const formattedUsersData = usersData.map(({ first_name, last_name, age, level_id }) => [first_name, last_name, age, level_id]);
+      const formattedUsersData = usersData.map(({ first_name, last_name, age, level_id, firebase_id }) => [first_name, last_name, age, level_id, firebase_id]);
       const insertUsersQuery = format(`
-        INSERT INTO t2c_user (first_name, last_name, age, level_id) VALUES %L RETURNING *;
+        INSERT INTO t2c_user (first_name, last_name, age, level_id, firebase_id) VALUES %L RETURNING *;
       `, formattedUsersData);
       return db.query(insertUsersQuery);
     })
