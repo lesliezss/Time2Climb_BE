@@ -1,297 +1,271 @@
-### GET /api/grades
-- **Description**: Retrieves all grades.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/grades`
-- **Example Response**:
-  ```json
-  [
+# Time 2 Climb App API Documentation
+
+## Overview
+
+This API allows users to manage climbing sessions, climbs, grades, and walls. Below are the details of each endpoint, including their request and response formats.
+
+## Endpoints
+
+### Users
+
+#### GET /api/users
+
+- **Description:** Fetch all users.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
     {
-      "grade_id": 1,
-      "grade_label": "5a",
-      "grade_system_id": 1,
-      "grade_system_label": "UIAA"
-    },
-    {
-      "grade_id": 2,
-      "grade_label": "5b",
-      "grade_system_id": 1,
-      "grade_system_label": "UIAA"
+      "users": [
+        {
+          "id": 1,
+          "first_name": "Chris",
+          "last_name": "Doe",
+          "age": 25,
+          "level_id": 3,
+          "firebase_id": "abc123"
+        },
+        ...
+      ]
     }
-  ]
-  ```
+    ```
 
-### GET /api/grades/:grade_id
-- **Description**: Retrieves a specific grade by grade ID.
-- **Parameters**:
-  - `grade_id` (required): The ID of the grade to retrieve.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/grades/5`
-- **Example Response**:
-  ```json
-  {
-    "grade_id": 5,
-    "grade_label": "6a",
-    "grade_system_id": 1,
-    "grade_system_label": "UIAA"
-  }
-  ```
+#### GET /api/users/:user_id
 
-### GET /api/users
-- **Description**: Retrieves all users.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/users`
-- **Example Response**:
-  ```json
-  {
-    "users": [
-      {
-        "id": 1,
-        "first_name": "Alice",
-        "last_name": "Smith",
-        "age": 29,
-        "level_id": 2
-      },
-      {
+- **Description:** Fetch a user by their ID.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "user": {
         "id": 2,
-        "first_name": "Bob",
-        "last_name": "Brown",
-        "age": 34,
-        "level_id": 3
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "age": 28,
+        "level_id": 2,
+        "firebase_id": "def456"
       }
-    ]
-  }
-  ```
-
-### GET /api/users/:user_id
-- **Description**: Retrieves a specific user by user ID.
-- **Parameters**:
-  - `user_id` (required): The ID of the user to retrieve.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/users/2`
-- **Example Response**:
-  ```json
-  {
-    "user": {
-      "id": 2,
-      "first_name": "Bob",
-      "last_name": "Brown",
-      "age": 34,
-      "level_id": 3
     }
-  }
-  ```
+    ```
 
-### POST /api/users
-- **Description**: Creates a new user.
-- **Example Request**:
-  - **Method**: POST
-  - **URL**: `https://your-api-domain.com/api/users`
-  - **Request Body**:
+#### POST /api/users
+
+- **Description:** Add a new user.
+- **Request:**
+  - **Body:**
     ```json
     {
       "first_name": "John",
       "last_name": "Doe",
       "age": 28,
-      "level_id": 2
+      "level_id": 2,
+      "firebase_id": "wklenrlkwnlr"
     }
     ```
-- **Example Response**:
-  ```json
-  {
-    "id": 4,
-    "first_name": "John",
-    "last_name": "Doe",
-    "age": 28,
-    "level_id": 2
-  }
-  ```
-
-### PATCH /api/users/:user_id
-- **Description**: Updates user details.
-- **Parameters**:
-  - `user_id` (required): The ID of the user to update.
-- **Example Request**:
-  - **Method**: PATCH
-  - **URL**: `https://your-api-domain.com/api/users/1`
-  - **Request Body**:
+- **Response:**
+  - **Status:** 201 Created
+  - **Body:**
     ```json
     {
+      "id": 3,
+      "first_name": "John",
+      "last_name": "Doe",
+      "age": 28,
+      "level_id": 2,
+      "firebase_id": "wklenrlkwnlr"
+    }
+    ```
+
+#### PATCH /api/users/:user_id
+
+- **Description:** Update user details.
+- **Request:**
+  - **Body:**
+    ```json
+    {
+      "last_name": "Updated",
+      "age": 36
+    }
+    ```
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "id": 1,
       "first_name": "Chris",
       "last_name": "Updated",
       "age": 36,
       "level_id": 3
     }
     ```
-- **Example Response**:
-  ```json
-  {
-    "id": 1,
-    "first_name": "Chris",
-    "last_name": "Updated",
-    "age": 36,
-    "level_id": 3
-  }
-  ```
 
-### DELETE /api/users/:user_id
-- **Description**: Deletes a user by user ID.
-- **Parameters**:
-  - `user_id` (required): The ID of the user to delete.
-- **Example Request**:
-  - **Method**: DELETE
-  - **URL**: `https://your-api-domain.com/api/users/1`
-- **Example Response**:
-  ```json
-  {}
-  ```
+#### DELETE /api/users/:user_id
 
-### GET /api/walls/:wall_id
-- **Description**: Retrieves a specific wall by wall ID.
-- **Parameters**:
-  - `wall_id` (required): The ID of the wall to retrieve.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/walls/3`
-- **Example Response**:
-  ```json
-  {
-    "wall": {
-      "id": 3,
-      "name": "The Climbing Works",
-      "postcode": "S8 0UJ",
-      "lat": "53.352327",
-      "long": "-1.483694",
-      "county": "South Yorkshire"
+- **Description:** Delete a user by ID.
+- **Response:**
+  - **Status:** 204 No Content
+
+### Sessions
+
+#### GET /api/sessions/users/:user_id
+
+- **Description:** Fetch all sessions of a particular user.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "userSessions": [
+        {
+          "user_id": 1,
+          "wall_id": 1,
+          "date": "2023-07-10",
+          "duration_minutes": 90
+        },
+        ...
+      ]
     }
-  }
-  ```
+    ```
 
-### GET /api/walls
-- **Description**: Retrieves all walls.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/walls`
-- **Example Response**:
-  ```json
-  {
-    "walls": [
-      {
-        "id": 1,
-        "name": "Wall One",
-        "postcode": "A1 1AA",
-        "lat": "52.123456",
-        "long": "-0.123456",
-        "county": "County One"
-      },
-      {
-        "id": 2,
-        "name": "Wall Two",
-        "postcode": "B2 2BB",
-        "lat": "53.654321",
-        "long": "-1.654321",
-        "county": "County Two"
-      }
-    ]
-  }
-  ```
+#### GET /api/sessions/:session_id
 
-### GET /api/walls/user/:user_id
-- **Description**: Retrieves walls for a specified user.
-- **Parameters**:
-  - `user_id` (required): The ID of the user to retrieve walls for.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/walls/user/1`
-- **Example Response**:
-  ```json
-  {
-    "walls": [
-      {
-        "id": 1,
-        "name": "Wall One",
-        "postcode": "A1 1AA",
-        "lat": "52.123456",
-        "long": "-0.123456",
-        "county": "County One"
-      },
-      {
-        "id": 3,
-        "name": "The Climbing Works",
-        "postcode": "S8 0UJ",
-        "lat": "53.352327",
-        "long": "-1.483694",
-        "county": "South Yorkshire"
-      }
-    ]
-  }
-  ```
+- **Description:** Fetch a session by its ID.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "userSession": [
+        {
+          "wall_name": "Main Wall",
+          "climb_count": "10",
+          "id": 1,
+          "user_id": 1,
+          "wall_id": 1,
+          "date": "2023-07-10",
+          "duration_minutes": 90
+        }
+      ]
+    }
+    ```
 
-  ```markdown
-### GET /api/climbs/:session_id
-- **Description**: Responds with an array of climbs at a particular session.
-- **Parameters**:
-  - `session_id` (required): The ID of the session to retrieve climbs for.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/climbs/1`
-- **Example Response**:
-  ```json
-  {
-    "climbs": [
-      {
-        "climb_id": 1,
-        "session_id": 1,
-        "grade_id": 51,
-        "grade_label": "6b+",
-        "grade_system_id": 3,
-        "grade_system_label": "Font",
-        "climb_type_id": 2,
-        "climb_type_label": "Boulder (font)",
-        "climb_outcome_id": 1,
-        "climb_outcome_label": "Onsight (first attempt - no beta)"
-      }
-    ]
-  }
-  ```
+#### POST /api/sessions
 
-### GET /api/climbs/users/:user_id
-- **Description**: Responds with an array of climbs of a particular user.
-- **Parameters**:
-  - `user_id` (required): The ID of the user to retrieve climbs for.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/climbs/users/1`
-- **Example Response**:
-  ```json
-  {
-    "climbs": [
-      {
-        "user_id": 1,
-        "climb_id": 1,
-        "session_id": 1,
-        "grade_id": 51,
-        "grade_label": "6b+",
-        "grade_system_id": 3,
-        "grade_system_label": "Font",
-        "climb_type_id": 2,
-        "climb_type_label": "Boulder (font)",
-        "climb_outcome_id": 1,
-        "climb_outcome_label": "Onsight (first attempt - no beta)"
-      }
-    ]
-  }
-  ```
+- **Description:** Add a new session.
+- **Request:**
+  - **Body:**
+    ```json
+    {
+      "user_id": 2,
+      "wall_id": 6,
+      "date": "2023-07-10",
+      "duration_minutes": 45
+    }
+    ```
+- **Response:**
+  - **Status:** 201 Created
+  - **Body:**
+    ```json
+    {
+      "user_id": 2,
+      "wall_id": 6,
+      "date": "2023-07-10",
+      "duration_minutes": 45
+    }
+    ```
 
-### POST /api/climbs
-- **Description**: Adds a climb for a user, responds with the posted climb.
-- **Example Request**:
-  - **Method**: POST
-  - **URL**: `https://your-api-domain.com/api/climbs`
-  - **Request Body**:
+#### PATCH /api/sessions/:session_id
+
+- **Description:** Update a session.
+- **Request:**
+  - **Body:**
+    ```json
+    {
+      "date": "2023-06-11T23:00:00.000Z",
+      "duration_minutes": 60
+    }
+    ```
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "id": 1,
+      "user_id": 1,
+      "wall_id": 3,
+      "date": "2023-06-10T23:00:00.000Z",
+      "duration_minutes": 60
+    }
+    ```
+
+#### DELETE /api/sessions/:session_id
+
+- **Description:** Delete a session by ID.
+- **Response:**
+  - **Status:** 204 No Content
+
+### Climbs
+
+#### GET /api/climbs/:session_id
+
+- **Description:** Fetch all climbs of a particular session.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "climbs": [
+        {
+          "id": 1,
+          "session_id": 1,
+          "grade_id": 5,
+          "grade_label": "5.10a",
+          "grade_system_id": 1,
+          "grade_system_label": "YDS",
+          "type_id": 1,
+          "type_label": "Lead",
+          "climb_outcome_id": 1,
+          "outcome_label": "Completed"
+        },
+        ...
+      ]
+    }
+    ```
+
+#### GET /api/climbs/users/:user_id
+
+- **Description:** Fetch all climbs of a particular user.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "climbs": [
+        {
+          "user_id": 1,
+          "id": 1,
+          "session_id": 1,
+          "grade_id": 5,
+          "grade_label": "5.10a",
+          "grade_system_id": 1,
+          "grade_system_label": "YDS",
+          "type_id": 1,
+          "type_label": "Lead",
+          "climb_outcome_id": 1,
+          "outcome_label": "Completed"
+        },
+        ...
+      ]
+    }
+    ```
+
+#### POST /api/climbs
+
+- **Description:** Add a new climb.
+- **Request:**
+  - **Body:**
     ```json
     {
       "session_id": 5,
@@ -300,76 +274,177 @@
       "climb_outcome_id": 3
     }
     ```
-- **Example Response**:
-  ```json
-  {
-    "newClimb": {
-      "climb_id": 14,
+- **Response:**
+  - **Status:** 201 Created
+  - **Body:**
+    ```json
+    {
+      "id": 3,
       "session_id": 5,
       "grade_id": 15,
       "type_id": 4,
       "climb_outcome_id": 3
     }
-  }
-  ```
+    ```
 
+#### PATCH /api/climbs/:climb_id
 
-
-### GET /api/walls/:wall_id
-- **Description**: Retrieves a specific wall by wall ID.
-- **Parameters**:
-  - `wall_id` (required): The ID of the wall to retrieve.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/walls/3`
-- **Example Response**:
-  ```json
-  {
-    "wall": {
-      "id": 3,
-      "name": "The Climbing Works",
-      "postcode": "S8 0UJ",
-      "lat": "53.352327",
-      "long": "-1.483694",
-      "county": "South Yorkshire"
+- **Description:** Update a climb.
+- **Request:**
+  - **Body:**
+    ```json
+    {
+      "grade_id": 2,
+      "climb_outcome_id": 1
     }
-  }
-  ```
+    ```
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "id": 2,
+      "session_id": 1,
+      "grade_id": 2,
+      "type_id": 1,
+      "climb_outcome_id": 1
+    }
+    ```
 
-### GET /api/walls
-- **Description**: Retrieves all walls.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/walls`
-- **Example Response**:
-  ```json
-  {
-    "walls": [
-      {
-        "id": 1,
-        "name": "Wall One",
-        "postcode": "A1 1AA",
-        "lat": "52.123456",
-        "long": "-0.123456",
-        "county": "County One"
-      },
-      {
-        "id": 2,
-        "name": "Wall Two",
-        "postcode": "B2 2BB",
-        "lat": "53.654321",
-        "long": "-1.654321",
-        "county": "County Two"
+#### DELETE /api/climbs/:climb_id
+
+- **Description:** Delete a climb by ID.
+- **Response:**
+  - **Status:** 204 No Content
+
+### Grades
+
+#### GET /api/grades
+
+- **Description:** Fetch all grades.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "grades": [
+        {
+          "id": 1,
+          "label": "5.9",
+          "system_id": 1,
+          "system_label": "YDS"
+        },
+        ...
+      ]
+    }
+    ```
+
+#### GET /api/grades/:grade_id
+
+- **Description:** Fetch a grade by its ID.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "grade": {
+        "id": 5,
+        "label": "5.10a",
+        "system_id": 1,
+        "system_label": "YDS"
       }
-    ]
-  }
-  ```
+    }
+    ```
 
-### GET /api/walls/user/:user_id
-- **Description**: Retrieves walls for a specified user.
-- **Parameters**:
-  - `user_id` (required): The ID of the user to retrieve walls for.
-- **Example Request**:
-  - **Method**: GET
-  - **URL**: `https://your-api-domain.com/api/walls/user/1`
-- **Example Response**:
+### Walls
+
+#### GET /api/walls
+
+- **Description:** Fetch all walls.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "walls": [
+        {
+          "id": 1,
+          "name": "Main Wall",
+          "location": "Gym A"
+        },
+        ...
+      ]
+
+
+    }
+    ```
+
+#### GET /api/walls/:wall_id
+
+- **Description:** Fetch a wall by its ID.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "wall": {
+        "id": 1,
+        "name": "Main Wall",
+        "location": "Gym A"
+      }
+    }
+    ```
+
+#### POST /api/walls
+
+- **Description:** Add a new wall.
+- **Request:**
+  - **Body:**
+    ```json
+    {
+      "name": "New Wall",
+      "location": "Gym B"
+    }
+    ```
+- **Response:**
+  - **Status:** 201 Created
+  - **Body:**
+    ```json
+    {
+      "id": 2,
+      "name": "New Wall",
+      "location": "Gym B"
+    }
+    ```
+
+#### PATCH /api/walls/:wall_id
+
+- **Description:** Update a wall.
+- **Request:**
+  - **Body:**
+    ```json
+    {
+      "name": "Updated Wall",
+      "location": "Gym C"
+    }
+    ```
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "id": 1,
+      "name": "Updated Wall",
+      "location": "Gym C"
+    }
+    ```
+
+#### DELETE /api/walls/:wall_id
+
+- **Description:** Delete a wall by ID.
+- **Response:**
+  - **Status:** 204 No Content
+
+---
+
+This documentation covers the basic CRUD operations for managing users, sessions, climbs, grades, and walls within the climbing application.
