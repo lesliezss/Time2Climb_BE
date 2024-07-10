@@ -10,11 +10,11 @@ afterAll(async () => await db.end());
 describe('Get wall by ID', () => {
     it('Returns correct wall', () => {
         return request(app)
-            .get('/api/walls/3')
+            .get('/api/walls/36')
             .expect(200)
             .then(({body}) => {
                 expect(body.wall).toEqual([{
-                    id: 3,
+                    id: 36,
                     name: 'The Climbing Works',
                     postcode: 'S8 0UJ',
                     lat: "53.352327",
@@ -47,7 +47,7 @@ describe('Get walls', () => {
             .get('/api/walls')
             .expect(200)
             .then(({body}) => {
-                expect(body.walls).toHaveLength(10);
+                expect(body.walls).toHaveLength(49);
                 body.walls.forEach((wall) => {
                     expect(wall).toMatchObject({
                         id: expect.any(Number),
@@ -66,7 +66,7 @@ describe('Get walls with user session filter', () => {
     it('Returns correct wall data for the specified user', () => {
         const expected = [
             {
-              id: 3,
+              id: 36,
               name: 'The Climbing Works',
               postcode: 'S8 0UJ',
               lat: '53.352327',
@@ -75,7 +75,7 @@ describe('Get walls with user session filter', () => {
               session_count: '1'
             },
             {
-              id: 4,
+              id: 32,
               name: 'The Foundry Climbing Centre',
               postcode: 'S3 8EN',
               lat: '53.390414',
@@ -88,7 +88,7 @@ describe('Get walls with user session filter', () => {
             .get('/api/walls/user/1')
             .expect(200)
             .then(({body}) => {
-                expect(body.walls.filteredWalls).toHaveLength(8);
+                expect(body.walls.filteredWalls).toHaveLength(47);
                 expect(body.walls.userSessionWalls).toHaveLength(2);
             });
     });

@@ -17,8 +17,8 @@
 -- \echo '\n Test Level \n'
 -- SELECT * FROM level;
 
--- \echo '\n Test Wall \n'
--- SELECT * FROM wall;
+\echo '\n Test Wall \n'
+SELECT * FROM wall;
 
 -- \echo '\n Test climb \n'
 -- SELECT * FROM climb where session_id = 1;
