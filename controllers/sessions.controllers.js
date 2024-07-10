@@ -20,9 +20,9 @@ exports.getAllUserSessions = (req, res, next) => {
 
 exports.getUserSessionsByWall = (req, res, next) => {
   const { user_id, wall_id } = req.params;
-  selectAllUserSessions(user_id, wall_id)
-    .then((userSessions) => {
-      res.status(200).send({ userWallSessions });
+  getUserSessionsByWallQuery(user_id, wall_id)
+    .then((response) => {
+      res.status(200).send({ userWallSessions: response });
     })
     .catch((err) => {
       next(err);

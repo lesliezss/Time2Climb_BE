@@ -9,7 +9,7 @@ afterAll(() => db.end());
 
 // SESSIONS
 
-describe("GET /api/sessions/users/:user_id", () => {
+describe.only("GET /api/sessions/users/:user_id", () => {
   test("status: 200 responds with an array of sessions of a particular user", () => {
     return request(app)
       .get("/api/sessions/users/1")
@@ -41,6 +41,18 @@ describe("GET /api/sessions/users/:user_id", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("No sessions found for user_id: 999");
+      });
+  });
+});
+
+describe.only("GET /api/sessions/users/:user_id/walls/:wall_id", () => {
+  test("status: 200 responds with an array of sessions of a particular user and wall", () => {
+    return request(app)
+      .get("/api/sessions/users/1/walls/3")
+      .expect(200)
+      .then(({ body }) => {
+        const { userWallSessions } = body;
+        expect(userWallSessions).toHaveLength(1);
       });
   });
 });
