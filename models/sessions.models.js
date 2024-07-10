@@ -2,7 +2,21 @@ const db = require("../db/connection");
 
 exports.selectAllUserSessions = (user_id) => {
   return db
-    .query(`SELECT * FROM t2c_session WHERE user_id = $1;`, [user_id])
+    .query(`
+      SELECT 
+        ts.id AS session_id,
+        ts.user_id,
+        ts.wall_id AS wall_id,
+        ts.date,
+        ts.duration_minutes,
+        w.name AS wall_name,
+        (SELECT COUNT(c.id) 
+        FROM climb c 
+        WHERE c.session_id = ts.id) AS climb_count
+      FROM t2c_session AS ts
+      LEFT JOIN wall AS w
+      ON ts.wall_id = w.id
+      WHERE ts.user_id = $1;`, [user_id])
     .then(({ rows }) => {
       if (rows.length === 0) {
         return Promise.reject({
