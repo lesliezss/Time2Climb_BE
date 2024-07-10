@@ -30,6 +30,7 @@ const {
   postSessions,
   patchSessions,
   deleteSession,
+  getUserSessionsByWall
 } = require("./controllers/sessions.controllers");
 
 const app = express();
@@ -47,6 +48,7 @@ app.delete("/api/users/:user_id", deleteUser);
 //SESSIONS
 
 app.get("/api/sessions/users/:user_id", getAllUserSessions);
+app.get("/api/sessions/users/:user_id/walls/:wall_id", getUserSessionsByWall);
 app.get("/api/sessions/:session_id", getUserSession);
 app.post("/api/sessions", postSessions);
 app.patch("/api/sessions/:sessions_id", patchSessions);

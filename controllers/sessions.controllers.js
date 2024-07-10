@@ -4,6 +4,7 @@ const {
   insertSession,
   updateSession,
   removeSession,
+  getUserSessionsByWallQuery
 } = require("../models/sessions.models");
 
 exports.getAllUserSessions = (req, res, next) => {

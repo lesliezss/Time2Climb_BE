@@ -114,3 +114,11 @@ FROM t2c_session AS ts
 LEFT JOIN wall AS w
 ON ts.wall_id = w.id
 WHERE ts.user_id = 1;
+
+SELECT 
+    ts.*,
+    w.name AS wall_name
+FROM t2c_session AS ts
+LEFT JOIN wall AS w
+ON ts.wall_id = w.id
+WHERE ts.user_id = 1;
